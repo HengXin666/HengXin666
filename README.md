@@ -37,6 +37,7 @@
 <a href="https://HengXin666.blog.csdn.net">
 <a href="https://space.bilibili.com/478917126"><img src="https://img.shields.io/badge/哔哩哔哩-Heng_Xin-pink?logo=bilibili" /></a>
 <img src="https://img.shields.io/badge/QQ-282000500-green?logo=tencentqq" />
+<a href="https://leetcode.cn/u/heng_xin/"><img src="https://img.shields.io/badge/leetcode-Heng_Xin-rgb(99,00,99)?logo=leetcode" /></a>
 <!-- https://github.com/antonkomarev/github-profile-views-counter -->
 <img src="https://komarev.com/ghpvc/?username=HengXin666&abbreviated=true&color=yellow" />
 </p>
