@@ -21,23 +21,23 @@
 <br/>
 
 <!-- https://github.com/anuraghazra/github-readme-stats -->
-<img align="center" src="https://github-readme-stats.vercel.app/api/wakatime?username=HengXin666&theme=transparent&hide_border=true&layout=compact&langs_count=22" />
+<img align="center" src="https://github-readme-stats.vercel.app/api/wakatime?username=Heng_Xin&theme=transparent&hide_border=true&layout=compact&langs_count=22" />
 
 <!-- https://github.com/anuraghazra/github-readme-stats -->
 <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=HengXin666&theme=transparent&hide_border=true&layout=donut-vertical&langs_count=6" />
 <br/>
 
 <!-- https://github.com/tandpfun/skill-icons -->
-<img align="center" src="https://skillicons.dev/icons?i=py,c,cpp,cmake,qt,linux,arch,java,html,css,js,ts,vue,md&theme=light" />
+<img align="center" src="https://skillicons.dev/icons?i=git,github,c,cpp,cmake,qt,linux,arch,py,java,html,css,js,ts,vue,cf,md&theme=light" />
 </p>
  
 <!-- https://github.com/badges/shields -->
 <p align="center">
 <a href="https://github.com/HengXin666"><img src="https://img.shields.io/badge/GitHub-HengXin666-blue?logo=github" /></a>
 <a href="https://HengXin666.blog.csdn.net">
-<a href="https://space.bilibili.com/478917126"><img src="https://img.shields.io/badge/哔哩哔哩-Heng_Xin-pink?logo=bilibili" /></a>
+<a href="https://space.bilibili.com/478917126"><img src="https://img.shields.io/badge/哔哩哔哩-Heng__Xin-pink?logo=bilibili" /></a>
 <img src="https://img.shields.io/badge/QQ-282000500-green?logo=tencentqq" />
-<a href="https://leetcode.cn/u/heng_xin/"><img src="https://img.shields.io/badge/leetcode-Heng_Xin-rgb(99,00,99)?logo=leetcode" /></a>
+<a href="https://leetcode.cn/u/heng_xin/"><img src="https://img.shields.io/badge/leetcode-Heng__Xin-rgb(99,00,99)?logo=leetcode" /></a>
 <!-- https://github.com/antonkomarev/github-profile-views-counter -->
 <img src="https://komarev.com/ghpvc/?username=HengXin666&abbreviated=true&color=yellow" />
 </p>
