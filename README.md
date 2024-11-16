@@ -5,7 +5,7 @@
  
 <!-- https://github.com/DenverCoder1/readme-typing-svg -->
 <p align="center">
-<img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=25&pause=1000&center=true&vCenter=true&random=false&width=600&lines=Welcome+to+my+GitHub+profile+page!;I+am+super+obsessed+with+programming!" />
+<img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=25&pause=1000&center=true&vCenter=true&random=false&width=600&lines=Welcome+to+my+GitHub+profile+page!;I+am+super+obsessed+with+programming!;欢迎来到我的Github;我是Heng_Xin, 热爱C++" />
 </p>
  
 <p align="center">
@@ -28,7 +28,7 @@
 <br/>
 
 <!-- https://github.com/tandpfun/skill-icons -->
-<img align="center" src="https://skillicons.dev/icons?i=git,github,c,cpp,cmake,qt,linux,arch,py,java,html,css,js,ts,vue,cf,md&theme=light" />
+<img align="center" src="https://skillicons.dev/icons?i=git,github,c,cpp,cmake,qt,linux,arch,docker,py,java,spring,mysql,redis,mongodb,html,css,js,ts,vue,cf,windows,md&theme=light" />
 </p>
  
 <!-- https://github.com/badges/shields -->
@@ -37,7 +37,7 @@
 <a href="https://HengXin666.blog.csdn.net">
 <a href="https://space.bilibili.com/478917126"><img src="https://img.shields.io/badge/哔哩哔哩-Heng__Xin-pink?logo=bilibili" /></a>
 <img src="https://img.shields.io/badge/QQ-282000500-green?logo=tencentqq" />
-<a href="https://leetcode.cn/u/heng_xin/"><img src="https://img.shields.io/badge/leetcode-Heng__Xin-rgb(99,00,99)?logo=leetcode" /></a>
+<a href="https://leetcode.cn/u/heng_xin/"><img src="https://img.shields.io/badge/LeetCode-Heng__Xin-rgb(99,00,99)?logo=leetcode" /></a>
 <!-- https://github.com/antonkomarev/github-profile-views-counter -->
 <img src="https://komarev.com/ghpvc/?username=HengXin666&abbreviated=true&color=yellow" />
 </p>
