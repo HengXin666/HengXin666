@@ -40,6 +40,7 @@
 <a href="https://leetcode.cn/u/heng_xin/"><img src="https://img.shields.io/badge/LeetCode-Heng__Xin-rgb(99,00,99)?logo=leetcode" /></a>
 <!-- https://github.com/antonkomarev/github-profile-views-counter -->
 <img src="https://komarev.com/ghpvc/?username=HengXin666&abbreviated=true&color=yellow" />
+<img src="https://wakatime.com/badge/user/2eabe28a-bba2-4d68-932a-4ea435bd8dc3.svg" />
 </p>
  
 <!-- https://github.com/kyechan99/capsule-render -->
