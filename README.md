@@ -5,9 +5,10 @@
 <img width="200" src="./img/misaka03.jpg" />
 
 <!-- 动态打字效果 -->
-![Typing SVG](https://readme-typing-svg.demolab.com?font=Orbitron&size=25&pause=100&center=true&vCenter=true&random=false&width=600&lines=ここから先は一方通行だ！)
+![Typing SVG](https://readme-typing-svg.demolab.com?font=Klee+One&weight=500&size=25&pause=1000&color=990099&center=true&vCenter=true&random=true&width=435&lines=%E3%81%93%E3%81%93%E3%81%8B%E3%82%89%E5%85%88%E3%81%AF%E4%B8%80%E6%96%B9%E9%80%9A%E8%A1%8C%E3%81%A0%EF%BC%81)
 
-![GitHub Stats](https://github-readme-stats-flame-pi-70.vercel.app/api?username=HengXin666&show_icons=true&theme=transparent&locale=ja&title_color=990099&hide_border=true&icon_color=F7CE45&text_color=D17277)![GitHub Streak](https://github-readme-streak-stats-two-coral-24.vercel.app?user=HengXin666&theme=radical&hide_border=true&border_radius=10&locale=ja&short_numbers=false%C2%A0%C2%A0%E6%97%A0%E6%95%88&date_format=%5BY.%5Dn.j&card_width=425&card_height=195)
+<img align="center" width="400" src="https://github-readme-stats-flame-pi-70.vercel.app/api?username=HengXin666&show_icons=true&theme=transparent&locale=ja&title_color=990099&hide_border=true&icon_color=F7CE45&text_color=D17277" title="GitHub Stats">
+<img align="center" width="400" src="https://github-readme-streak-stats-two-coral-24.vercel.app?user=HengXin666&theme=radical&hide_border=true&border_radius=10&locale=ja&short_numbers=false%C2%A0%C2%A0%E6%97%A0%E6%95%88&date_format=%5BY.%5Dn.j" title="GitHub Streak">
 
 ![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=HengXin666&show_icons=true&theme=github-compact&locale=ja&title_color=990099&icon_color=F7CE45&text_color=D17277&hide_border=true)
 
@@ -45,7 +46,11 @@
   <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=HengXin666&repo=HX-ANiMe&theme=transparent&locale=ja&title_color=990099&icon_color=F7CE45&text_color=D17277&show_owner=true&hide_border=true" />
 </a> -->
 <div align="center">
-  <a href="https://github.com/HengXin666/Cpp-CMake-Template">
-    <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=HengXin666&repo=Cpp-CMake-Template&theme=transparent&locale=ja&title_color=990099&icon_color=F7CE45&text_color=D17277&hide_border=true" />
-  </a>
+  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Edu+VIC+WA+NT+Beginner&weight=500&size=25&pause=1000&color=F719E3&center=true&vCenter=true&random=true&width=435&lines=C%2B%2B+CMake+Project+Template;C%2B%2B+CMake+%E9%A1%B9%E7%9B%AE%E6%A8%A1%E7%89%88" alt="Typing SVG" /></a>
+
+  <p>
+    <a href="https://github.com/HengXin666/Cpp-CMake-Template">
+      <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=HengXin666&repo=Cpp-CMake-Template&theme=transparent&locale=ja&title_color=990099&icon_color=F7CE45&text_color=D17277&hide_border=true" />
+    </a>
+  </p>
 </div>
