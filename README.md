@@ -7,12 +7,9 @@
 <!-- 动态打字效果 -->
 ![Typing SVG](https://readme-typing-svg.demolab.com?font=Orbitron&size=25&pause=100&center=true&vCenter=true&random=false&width=600&lines=ここから先は一方通行だ！)
 
-<div class="container">
-  <img src="https://github-readme-stats-flame-pi-70.vercel.app/api?username=HengXin666&show_icons=true&theme=transparent&locale=ja&title_color=990099&hide_border=true&icon_color=F7CE45&text_color=D17277" alt="GitHub Stats">
-  <img src="https://github-readme-streak-stats-two-coral-24.vercel.app?user=HengXin666&theme=radical&hide_border=true&border_radius=10&locale=ja&short_numbers=false&date_format=%5BY.%5Dn.j" alt="GitHub Streak">
-</div>
+![GitHub Stats](https://github-readme-stats-flame-pi-70.vercel.app/api?username=HengXin666&show_icons=true&theme=transparent&locale=ja&title_color=990099&hide_border=true&icon_color=F7CE45&text_color=D17277)![GitHub Streak](https://github-readme-streak-stats-two-coral-24.vercel.app?user=HengXin666&theme=radical&hide_border=true&border_radius=10&locale=ja&short_numbers=false%C2%A0%C2%A0%E6%97%A0%E6%95%88&date_format=%5BY.%5Dn.j&card_width=449&card_height=195)
 
-![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=HengXin666&show_icons=true&theme=github-compact&locale=ja&title_color=990099&icon_color=F7CE45&text_color=D17277)
+![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=HengXin666&show_icons=true&theme=github-compact&locale=ja&title_color=990099&icon_color=F7CE45&text_color=D17277&hide_border=true)
 
 
 ![WakaTime Stats](https://github-readme-stats-flame-pi-70.vercel.app/api/wakatime?username=Heng_Xin&theme=transparent&hide_border=true&layout=compact&langs_count=114514&locale=ja&title_color=990099&text_color=D17277)![Top Langs](https://github-readme-stats-flame-pi-70.vercel.app/api/top-langs/?username=HengXin666&theme=transparent&hide_border=true&layout=donut-vertical&langs_count=114514&locale=ja&title_color=990099&text_color=D17277)
