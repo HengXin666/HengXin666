@@ -34,8 +34,13 @@ jobs:
           node --loader ts-node/esm scripts/updateReadme.ts
 
       - name: 提交并推送 (如果更改)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name "Heng_Xin[LoLi-Bot]"
-          git config user.email "282000500@qq.com"
           git add README.md
-          git diff --cached --quiet && echo "无变化." || (git commit -m "[LoLi-Bot]: 更新博客列表" && git push)
+          if git diff --cached --quiet; then
+            echo "无变化."
+          else
+            git commit -m "[LoLi-Bot]: 更新博客列表"
+            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
+          fi
