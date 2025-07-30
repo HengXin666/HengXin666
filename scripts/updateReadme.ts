@@ -65,11 +65,7 @@ async function main() {
 
 ${blogList}
 
-> 更新时间: ${beijingTime} (北京时间)
-
----
-
-使用 [Docusaurus](https://docusaurus.io/) 构建博客，源代码见: [HXLoLi](https://github.com/HengXin666/HXLoLi)
+> 更新时间: ${beijingTime} (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi)
 `;
 
   writeFileSync(README_PATH, readme);

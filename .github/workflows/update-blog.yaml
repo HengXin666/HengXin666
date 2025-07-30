@@ -29,6 +29,9 @@ jobs:
       - name: 运行更新脚本
         run: pnpm update
 
+      - name: 执行更新脚本 (.ts)
+        run: pnpm ts-node scripts/updateReadme.ts
+    
       - name: 提交并推送 (如果更改)
         run: |
           git config user.name "Heng_Xin[LoLi-Bot]"
