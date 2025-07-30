@@ -30,11 +30,11 @@ jobs:
       - name: 安装依赖项
         run: pnpm install
 
-      - name: 安装 ts-node & typescript
-        run: pnpm add -D ts-node typescript
-
-      - name: 执行更新脚本 (.ts)
-        run: node --loader ts-node/esm scripts/updateReadme.ts
+      - name: 编译 TypeScript
+        run: pnpm tsc
+      
+      - name: 运行更新脚本
+        run: node dist/scripts/updateReadme.js
 
       - name: 提交并推送 (如果更改)
         run: |
