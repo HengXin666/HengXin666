@@ -29,8 +29,9 @@ jobs:
         run: |
           npm install --save-dev ts-node typescript
 
-      - name: 运行爬虫脚本
-        run: node scripts/updateReadme.ts
+      - name: 运行 TypeScript 脚本 (使用 loader)
+        run: |
+          node --loader ts-node/esm scripts/updateReadme.ts
 
       - name: 提交并推送 (如果更改)
         run: |
