@@ -1,8 +1,9 @@
-name: 更新个人资料自述文件中的博客部分
+name: "[LoLi-Bot]: 爬取更新博客最新文章"
 
 on:
+  push:                          # 支持 push 自动更新
   schedule:
-    - cron: '0 0 * * *'  # 每天00:00 UTC
+    - cron: '0 16 * * *'         # 每天北京时间 00:00
   workflow_dispatch:
 
 jobs:
@@ -12,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: 设置Node.js
+      - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -28,7 +29,7 @@ jobs:
       - name: 运行更新脚本
         run: pnpm update
 
-      - name: 提交并推送(如果更改)
+      - name: 提交并推送 (如果更改)
         run: |
           git config user.name "Heng_Xin[LoLi-Bot]"
           git config user.email "282000500@qq.com"
