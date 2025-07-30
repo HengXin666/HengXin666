@@ -25,6 +25,10 @@ jobs:
       - name: 安装依赖项
         run: npm i
 
+      - name: 安装依赖 (仅使用 npm)
+        run: |
+          npm install --save-dev ts-node typescript
+
       - name: 运行爬虫脚本
         run: node scripts/updateReadme.ts
 
