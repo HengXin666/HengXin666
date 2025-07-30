@@ -1,9 +1,9 @@
 name: "[LoLi-Bot]: 爬取更新博客最新文章"
 
 on:
-  push:                          # 支持 push 自动更新
+  push:
   schedule:
-    - cron: '0 16 * * *'         # 每天北京时间 00:00
+    - cron: '0 16 * * *'
   workflow_dispatch:
 
 jobs:
@@ -26,15 +26,15 @@ jobs:
       - name: 安装依赖项
         run: pnpm install
 
-      - name: 运行更新脚本
-        run: pnpm update
+      - name: 安装 ts-node & typescript
+        run: pnpm add -D ts-node typescript
 
       - name: 执行更新脚本 (.ts)
         run: pnpm ts-node scripts/updateReadme.ts
-    
+
       - name: 提交并推送 (如果更改)
         run: |
           git config user.name "Heng_Xin[LoLi-Bot]"
           git config user.email "282000500@qq.com"
           git add README.md
-          git diff --quiet && echo "无变化." || (git commit -m "[LoLi-Bot]: 更新博客列表" && git push)
+          git diff --cached --quiet && echo "无变化." || (git commit -m "[LoLi-Bot]: 更新博客列表" && git push)
