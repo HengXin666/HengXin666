@@ -23,7 +23,7 @@ jobs:
           node-version: 20
 
       - name: 安装依赖项
-        run: node install
+        run: npm i
 
       - name: 运行爬虫脚本
         run: node scripts/updateReadme.ts
