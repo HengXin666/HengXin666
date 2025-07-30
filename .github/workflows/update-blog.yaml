@@ -34,7 +34,7 @@ jobs:
         run: pnpm add -D ts-node typescript
 
       - name: 执行更新脚本 (.ts)
-        run: pnpm ts-node --loader ts-node/esm scripts/updateReadme.ts
+        run: node --loader ts-node/esm scripts/updateReadme.ts
 
       - name: 提交并推送 (如果更改)
         run: |
