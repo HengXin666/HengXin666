@@ -33,6 +33,11 @@ jobs:
         run: |
           node --loader ts-node/esm scripts/updateReadme.ts
 
+      - name: 设置 Git 用户身份
+        run: |
+          git config user.name "Heng_Xin[LoLi-Bot]"
+          git config user.email "282000500@qq.com"
+        
       - name: 提交并推送 (如果更改)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
