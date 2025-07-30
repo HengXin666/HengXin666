@@ -1,4 +1,34 @@
-<!-- https://github.com/kyechan99/capsule-render -->
+import {writeFileSync} from "fs";
+import fetch from "node-fetch";
+import {parseStringPromise} from "xml2js";
+
+const RSS_URL = "https://hengxin666.github.io/HXLoLi/blog/rss.xml";
+const README_PATH = "README.md";
+
+async function main() {
+  const res = await fetch(RSS_URL);
+  const xml = await res.text();
+  const parsed = await parseStringPromise(xml);
+  const items = parsed.rss.channel[0].item.slice(0, 5); // 最新5条
+
+  const beijingTime = new Intl.DateTimeFormat("zh-CN", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  }).format(new Date());
+
+  const blogList = items.map((item: any) => {
+    const title = item.title[0];
+    const link = item.link[0];
+    const date = new Date(item.pubDate?.[0] ?? "").toISOString().split("T")[0];
+    return `- [${title}](${link}) <sub><i>${date}</i></sub>`;
+  }).join("\n");
+
+  const readme = `<!-- https://github.com/kyechan99/capsule-render -->
 <div id="title" align=center>
 
 <!-- 头像 -->
@@ -30,3 +60,23 @@
 </div>
 
 <!-- 仓库 -->
+
+## 📚 最新 [博客](https://hengxin666.github.io/HXLoLi/) 文章 (每日00:00更新)
+
+${blogList}
+
+> 更新时间: ${beijingTime} (北京时间)
+
+---
+
+使用 [Docusaurus](https://docusaurus.io/) 构建博客，源代码见: [HXLoLi](https://github.com/HengXin666/HXLoLi)
+`;
+
+  writeFileSync(README_PATH, readme);
+  console.log("README.md 已更新");
+}
+
+main().catch(err => {
+  console.error("更新失败:", err);
+  process.exit(1);
+});

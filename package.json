@@ -1,0 +1,16 @@
+{
+    "name": "rss-readme-updater",
+    "type": "module",
+    "scripts": {
+      "update": "ts-node scripts/updateReadme.ts"
+    },
+    "dependencies": {
+      "xml2js": "^0.6.2",
+      "node-fetch": "^3.3.2"
+    },
+    "devDependencies": {
+      "ts-node": "^10.9.1",
+      "typescript": "^5.4.0"
+    }
+  }
+  

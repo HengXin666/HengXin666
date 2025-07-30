@@ -1,0 +1,36 @@
+name: 更新个人资料自述文件中的博客部分
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天00:00 UTC
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 设置Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 安装 pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 安装依赖项
+        run: pnpm install
+
+      - name: 运行更新脚本
+        run: pnpm update
+
+      - name: 提交并推送(如果更改)
+        run: |
+          git config user.name "Heng_Xin[LoLi-Bot]"
+          git config user.email "282000500@qq.com"
+          git add README.md
+          git diff --quiet && echo "无变化." || (git commit -m "[LoLi-Bot]: 更新博客列表" && git push)
