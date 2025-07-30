@@ -2,12 +2,16 @@ name: "[LoLi-Bot]: 爬取更新博客最新文章"
 
 on:
   push:
+    paths-ignore:
+      - 'README.md'
   schedule:
     - cron: '0 16 * * *'
   workflow_dispatch:
 
 jobs:
   update:
+    if: ${{ github.event.head_commit != null && !contains(github.event.head_commit.message, '[LoLi-Bot]') }}
+
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +34,7 @@ jobs:
         run: pnpm add -D ts-node typescript
 
       - name: 执行更新脚本 (.ts)
-        run: pnpm ts-node scripts/updateReadme.ts
+        run: pnpm ts-node --loader ts-node/esm scripts/updateReadme.ts
 
       - name: 提交并推送 (如果更改)
         run: |
