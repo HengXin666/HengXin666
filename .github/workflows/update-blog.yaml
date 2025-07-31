@@ -5,12 +5,12 @@ on:
     paths-ignore:
       - 'README.md'
   schedule:
-    - cron: '0 16 * * *'
+    - cron: '45 0 * * *' # 每天北京时间 08:45
   workflow_dispatch:
 
 jobs:
   update:
-    if: ${{ github.event.head_commit != null && !contains(github.event.head_commit.message, '[LoLi-Bot]') }}
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event.head_commit != null && !contains(github.event.head_commit.message, '[LoLi-Bot]')) }}
 
     runs-on: ubuntu-latest
 
