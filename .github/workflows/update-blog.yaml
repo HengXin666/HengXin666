@@ -5,9 +5,7 @@ on:
     paths-ignore:
       - 'README.md'
   schedule:
-    # 每5分钟（GitHub最小间隔）
-    - cron: "*/5 * * * *"
-  workflow_dispatch:
+    - cron: '0 16 * * *'
 
 jobs:
   update:
