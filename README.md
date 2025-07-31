@@ -33,10 +33,10 @@
 
 ## 📚 最新 [博客](https://hengxin666.github.io/HXLoLi/) 文章 (每日00:00更新)
 
+- [MSVC错误 编译期缓存错误和ICE](https://HengXin666.github.io/HXLoLi/blog/2025/07/30/01-MSVC错误) <sub><i>2025-07-30</i></sub>
 - [gcc 内部编译器 段错误](https://HengXin666.github.io/HXLoLi/blog/2025/07/28/01_gcc编译器bug) <sub><i>2025-07-28</i></sub>
 - [调教VSCode, 以代码提示C++](https://HengXin666.github.io/HXLoLi/blog/2025/06/30/01-调教VSCode) <sub><i>2025-06-30</i></sub>
 - [【C++】协程与Lambda小细节](https://HengXin666.github.io/HXLoLi/blog/2025/06/29/01-协程小细节) <sub><i>2025-06-29</i></sub>
 - [Linux常见Hook方法](https://HengXin666.github.io/HXLoLi/blog/2025/06/24/01-Linux常见Hook方法) <sub><i>2025-06-24</i></sub>
-- [上班第一课](https://HengXin666.github.io/HXLoLi/blog/2025/06/23/01-上班第一课) <sub><i>2025-06-23</i></sub>
 
-> 更新时间: 2025/07/30 13:44:10 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi)
+> 更新时间: 2025/07/31 08:43:39 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi)
