@@ -45,7 +45,7 @@ async function main() {
 
 ![WakaTime Stats](https://github-readme-stats-flame-pi-70.vercel.app/api/wakatime?username=Heng_Xin&theme=transparent&hide_border=true&layout=compact&langs_count=114514&locale=ja&title_color=990099&text_color=D17277)![Top Langs](https://github-readme-stats-flame-pi-70.vercel.app/api/top-langs/?username=HengXin666&theme=transparent&hide_border=true&layout=donut-vertical&langs_count=114514&locale=ja&title_color=990099&text_color=D17277)
 
-![Skills](https://skillicons.dev/icons?i=git,github,c,cpp,cmake,qt,linux,arch,docker,py,java,spring,mysql,redis,mongodb,html,css,js,ts,vue,cf,windows,md&theme=light)
+![Skills](https://skillicons.dev/icons?i=git,github,c,cpp,cmake,qt,linux,arch,docker,py,java,spring,mysql,redis,mongodb,html,css,js,ts,react,vue,cf,windows,md&theme=light)
 
 [![Modern C++](https://img.shields.io/badge/Code-Modern%20C++-blue)](https://learn.microsoft.com/zh-cn/cpp/cpp/welcome-back-to-cpp-modern-cpp)
 
@@ -61,11 +61,11 @@ async function main() {
 
 <!-- 仓库 -->
 
-## 📚 最新 [博客](https://hengxin666.github.io/HXLoLi/) 文章 (每日00:00更新)
+## 📚 最新 [博客](https://hengxin666.github.io/HXLoLi/) 文章
 
 ${blogList}
 
-> 更新时间: ${beijingTime} (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi)
+> 更新时间: ${beijingTime} (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
 `;
 
   writeFileSync(README_PATH, readme);

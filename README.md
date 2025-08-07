@@ -15,7 +15,7 @@
 
 ![WakaTime Stats](https://github-readme-stats-flame-pi-70.vercel.app/api/wakatime?username=Heng_Xin&theme=transparent&hide_border=true&layout=compact&langs_count=114514&locale=ja&title_color=990099&text_color=D17277)![Top Langs](https://github-readme-stats-flame-pi-70.vercel.app/api/top-langs/?username=HengXin666&theme=transparent&hide_border=true&layout=donut-vertical&langs_count=114514&locale=ja&title_color=990099&text_color=D17277)
 
-![Skills](https://skillicons.dev/icons?i=git,github,c,cpp,cmake,qt,linux,arch,docker,py,java,spring,mysql,redis,mongodb,html,css,js,ts,vue,cf,windows,md&theme=light)
+![Skills](https://skillicons.dev/icons?i=git,github,c,cpp,cmake,qt,linux,arch,docker,py,java,spring,mysql,redis,mongodb,html,css,js,ts,react,vue,cf,windows,md&theme=light)
 
 [![Modern C++](https://img.shields.io/badge/Code-Modern%20C++-blue)](https://learn.microsoft.com/zh-cn/cpp/cpp/welcome-back-to-cpp-modern-cpp)
 
@@ -31,7 +31,7 @@
 
 <!-- 仓库 -->
 
-## 📚 最新 [博客](https://hengxin666.github.io/HXLoLi/) 文章 (每日00:00更新)
+## 📚 最新 [博客](https://hengxin666.github.io/HXLoLi/) 文章
 
 - [MSVC错误 编译期缓存错误和ICE](https://HengXin666.github.io/HXLoLi/blog/2025/07/30/01-MSVC错误) <sub><i>2025-07-30</i></sub>
 - [gcc 内部编译器 段错误](https://HengXin666.github.io/HXLoLi/blog/2025/07/28/01_gcc编译器bug) <sub><i>2025-07-28</i></sub>
@@ -39,4 +39,4 @@
 - [【C++】协程与Lambda小细节](https://HengXin666.github.io/HXLoLi/blog/2025/06/29/01-协程小细节) <sub><i>2025-06-29</i></sub>
 - [Linux常见Hook方法](https://HengXin666.github.io/HXLoLi/blog/2025/06/24/01-Linux常见Hook方法) <sub><i>2025-06-24</i></sub>
 
-> 更新时间: 2025/08/07 00:25:01 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi)
+> 更新时间: 2025/08/07 00:25:01 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
