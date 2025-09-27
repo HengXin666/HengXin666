@@ -13,9 +13,9 @@
 ![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=HengXin666&show_icons=true&theme=github-compact&locale=ja&title_color=990099&icon_color=F7CE45&text_color=D17277&hide_border=true)
 
 
-![WakaTime Stats](https://github-readme-stats-flame-pi-70.vercel.app/api/wakatime?username=Heng_Xin&theme=transparent&hide_border=true&layout=compact&langs_count=114514&locale=ja&title_color=990099&text_color=D17277)![Top Langs](https://github-readme-stats-flame-pi-70.vercel.app/api/top-langs/?username=HengXin666&theme=transparent&hide_border=true&layout=donut-vertical&langs_count=114514&locale=ja&title_color=990099&text_color=D17277)
+![WakaTime Stats](https://github-readme-stats-flame-pi-70.vercel.app/api/wakatime?username=Heng_Xin&theme=transparent&hide_border=true&layout=compact&langs_count=10&locale=ja&title_color=990099&text_color=D17277)![Top Langs](https://github-readme-stats-flame-pi-70.vercel.app/api/top-langs/?username=HengXin666&theme=transparent&hide_border=true&layout=donut-vertical&langs_count=10&locale=ja&title_color=990099&text_color=D17277)
 
-![Skills](https://skillicons.dev/icons?i=git,github,c,cpp,cmake,qt,linux,arch,docker,py,java,spring,mysql,redis,mongodb,html,css,js,ts,react,vue,cf,windows,md&theme=light)
+![Skills](https://skillicons.dev/icons?i=git,github,c,cpp,cmake,qt,linux,arch,docker,py,java,spring,sqlite,mysql,redis,mongodb,html,css,js,ts,react,vue,cf,windows,md&theme=light)
 
 [![Modern C++](https://img.shields.io/badge/Code-Modern%20C++-blue)](https://learn.microsoft.com/zh-cn/cpp/cpp/welcome-back-to-cpp-modern-cpp)
 
