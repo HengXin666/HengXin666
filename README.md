@@ -38,4 +38,4 @@
 - [QML 支持 Wayland 比 QWidget 好!](https://HengXin666.github.io/HXLoLi/blog/2025/08/13/01-QML万岁) <sub><i>2025-08-13</i></sub>
 - [MSVC错误 编译期缓存错误和ICE](https://HengXin666.github.io/HXLoLi/blog/2025/07/30/01-MSVC错误) <sub><i>2025-07-30</i></sub>
 
-> 更新时间: 2025/10/07 00:21:08 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
+> 更新时间: 2025/10/08 00:21:04 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
