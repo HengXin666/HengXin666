@@ -32,10 +32,10 @@
 
 ## 📚 最新 [博客](https://hengxin666.github.io/HXLoLi/) 文章
 
+- [MSVC屎山代码发力了→requires前向声明问题](https://HengXin666.github.io/HXLoLi/blog/2025/11/01/01_MSVC屎山代码发力了) <sub><i>2025-11-01</i></sub>
 - [腾讯二面](https://HengXin666.github.io/HXLoLi/blog/2025/10/20/01-腾讯二面) <sub><i>2025-10-20</i></sub>
 - [网易游戏服务端一面](https://HengXin666.github.io/HXLoLi/blog/2025/10/17/01-网易游戏服务端一面) <sub><i>2025-10-17</i></sub>
 - [记录第一次线上面试](https://HengXin666.github.io/HXLoLi/blog/2025/10/14/01-第一次线上面试) <sub><i>2025-10-14</i></sub>
 - [力扣Hot100速记](https://HengXin666.github.io/HXLoLi/blog/2025/10/11/01-力扣Hot100速记) <sub><i>2025-10-11</i></sub>
-- [【C++】编译期函数指针唯一化](https://HengXin666.github.io/HXLoLi/blog/2025/09/24/01-编译期函数指针唯一化) <sub><i>2025-09-24</i></sub>
 
-> 更新时间: 2025/11/01 00:22:03 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
+> 更新时间: 2025/11/02 00:18:20 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
