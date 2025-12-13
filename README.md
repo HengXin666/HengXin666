@@ -32,10 +32,10 @@
 
 ## 📚 最新 [博客](https://hengxin666.github.io/HXLoLi/) 文章
 
+- [MSVC ICE 编译期内部错误](https://HengXin666.github.io/HXLoLi/blog/2025/12/13/01_MSVC_ICE) <sub><i>2025-12-13</i></sub>
 - [速记之前遇到的msvc和gcc八嘎](https://HengXin666.github.io/HXLoLi/blog/2025/11/08/01_速记之前遇到的msvc和gcc八嘎) <sub><i>2025-11-08</i></sub>
 - [MSVC屎山代码发力了→requires前向声明问题](https://HengXin666.github.io/HXLoLi/blog/2025/11/01/01_MSVC屎山代码发力了) <sub><i>2025-11-01</i></sub>
 - [腾讯二面](https://HengXin666.github.io/HXLoLi/blog/2025/10/20/01-腾讯二面) <sub><i>2025-10-20</i></sub>
 - [网易游戏服务端一面](https://HengXin666.github.io/HXLoLi/blog/2025/10/17/01-网易游戏服务端一面) <sub><i>2025-10-17</i></sub>
-- [记录第一次线上面试](https://HengXin666.github.io/HXLoLi/blog/2025/10/14/01-第一次线上面试) <sub><i>2025-10-14</i></sub>
 
-> 更新时间: 2025/12/13 00:23:21 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
+> 更新时间: 2025/12/14 00:21:21 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
