@@ -1,3 +1,9 @@
+# py
+*.pyc
+.venv
+uv.lock
+.python-version
+
 # Logs
 logs
 *.log

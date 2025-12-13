@@ -1,50 +1,75 @@
-name: "[LoLi-Bot]: 爬取更新博客最新文章"
+name: '[LoLi-Bot] Daily Update (WakaTime & Blog)'
 
 on:
   push:
     paths-ignore:
       - 'README.md'
   schedule:
+    # 每天北京时间凌晨 00:00 运行 (UTC 16:00)
+    # 和您原来的时间保持一致
     - cron: '0 16 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'WakaTime 执行模式: default, week, full'
+        required: true
+        default: 'default'
+        type: choice
+        options:
+        - default
+        - week
+        - full
 
 jobs:
   update:
-    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event.head_commit != null && !contains(github.event.head_commit.message, '[LoLi-Bot]')) }}
+    # 防循环触发条件
+    if: >
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.head_commit != null && !contains(github.event.head_commit.message, '[LoLi-Bot]'))
 
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # 1. 检出代码
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: 设置 Node.js
+      # 2. 设置双环境: Node.js 和 Python
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: 安装依赖项
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. 顺序执行任务一: WakaTime 数据同步
+      - name: Install Python dependencies
+        run: pip install requests
+
+      - name: Run WakaTime Sync Script
+        env:
+          WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
+          WAKA_MODE: ${{ github.event.inputs.mode || 'default' }}
+        run: python py/wakatime_req.py
+
+      # 4. 顺序执行任务二: 博客文章更新
+      - name: Install Node.js dependencies
         run: npm i
 
-      - name: 安装依赖 (仅使用 npm)
-        run: |
-          npm install --save-dev ts-node typescript
+      - name: Run Blog Update Script (TypeScript)
+        run: node --loader ts-node/esm scripts/updateReadme.ts
 
-      - name: 运行 TypeScript 脚本 (使用 loader)
-        run: |
-          node --loader ts-node/esm scripts/updateReadme.ts
-
-      - name: 设置 Git 用户身份
-        run: |
-          git config user.name "Heng_Xin[LoLi-Bot]"
-          git config user.email "282000500@qq.com"
-        
-      - name: 提交并推送 (如果更改)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git add README.md
-          if git diff --cached --quiet; then
-            echo "无变化."
-          else
-            git commit -m "[LoLi-Bot]: 更新博客列表"
-            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
-          fi
+      # 5. 统一提交所有变更
+      - name: Commit and push all changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          # 使用您的机器人名称作为提交信息
+          commit_message: '[LoLi-Bot]: ご主人さま　毎日のアップデート にゃ~　(WakaTime & Blog)'
+          # 设置为您指定的 Git 用户身份
+          commit_user_name: 'Heng_Xin[LoLi-Bot]'
+          commit_user_email: '282000500@qq.com'
+          commit_author: 'Heng_Xin[LoLi-Bot] <282000500@qq.com>'

@@ -1,0 +1,9 @@
+[project]
+name = "py"
+version = "0.1.0"
+description = "Heng_Xin 指定定时任务脚本"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.32.5",
+]
