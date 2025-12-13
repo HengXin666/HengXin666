@@ -30,6 +30,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    environment: LoLi-Bot
+
     steps:
       # 1. 检出代码
       - name: Checkout Repository
