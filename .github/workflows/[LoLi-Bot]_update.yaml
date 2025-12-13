@@ -1,4 +1,4 @@
-name: '[LoLi-Bot] Daily Update (WakaTime & Blog)'
+name: '[LoLi-Bot] 每日任务, 始まるざますよ、行くて関す'
 
 on:
   push:
@@ -38,12 +38,12 @@ jobs:
         uses: actions/checkout@v4
 
       # 2. 设置双环境: Node.js 和 Python
-      - name: Set up Node.js
+      - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Set up Python
+      - name: 设置 Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -52,21 +52,21 @@ jobs:
       - name: Install Python dependencies
         run: pip install requests
 
-      - name: Run WakaTime Sync Script
+      - name: 运行 WakaTime 同步脚本
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
           WAKA_MODE: ${{ github.event.inputs.mode || 'default' }}
         run: python py/wakatime_req.py
 
       # 4. 顺序执行任务二: 博客文章更新
-      - name: Install Node.js dependencies
+      - name: 安装 Node.js 依赖
         run: npm i
 
-      - name: Run Blog Update Script (TypeScript)
+      - name: 运行博客文章更新脚本
         run: node --loader ts-node/esm scripts/updateReadme.ts
 
       # 5. 统一提交所有变更
-      - name: Commit and push all changes
+      - name: 召唤 萝莉小猫娘
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           # 使用您的机器人名称作为提交信息
