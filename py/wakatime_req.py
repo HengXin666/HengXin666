@@ -1,5 +1,6 @@
 import os
 import json
+from time import sleep
 import requests
 from enum import Enum
 from datetime import datetime, timedelta
@@ -143,6 +144,7 @@ def main():
     #    旧文件中其他日期的数据, 因为已经加载到了 `data_map` 中, 所以依然存在。
     for date_str in dates_to_update:
         summary = fetch_wakatime_for_date(api_key, date_str)
+        sleep(3) # 防止被封禁
         if summary and (processed_entry := process_summary_data(summary)):
             data_map[date_str] = processed_entry
             print(f"已在内存中更新 {date_str} 的数据。")
