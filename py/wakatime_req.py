@@ -1,6 +1,7 @@
 import os
 import json
-from time import sleep
+import random
+from time import sleep, time
 import requests
 from enum import Enum
 from datetime import datetime, timedelta
@@ -75,21 +76,41 @@ def get_dates_for_mode(mode: WakaMode, api_key: str) -> List[str]:
     ]
 
 def fetch_wakatime_for_date(api_key: str, date_str: str) -> Optional[Dict[str, Any]]:
-    """为指定日期获取 WakaTime 统计数据"""
+    """为指定日期获取 WakaTime 统计数据, 并带有指数退避的重试逻辑"""
     api_url = f"https://wakatime.com/api/v1/users/current/summaries?start={date_str}&end={date_str}&api_key={api_key}"
     print(f"正在获取 {date_str} 的数据...")
-    try:
-        response = requests.get(api_url, timeout=20)
-        response.raise_for_status()
-        data = response.json()
-        return data['data'][0] if data.get('data') else None
-    except requests.exceptions.RequestException as e:
-        print(f"获取 {date_str} 数据时 API 请求失败: {e}")
-        return None
+
+    max_retries = 5  # 最多重试5次
+    base_wait_time = 60  # 初始等待60秒
+
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(api_url, timeout=30) # 增加超时时间
+            response.raise_for_status()  # 如果是 4xx 或 5xx 错误, 会抛出异常
+            data = response.json()
+            return data.get('data')[0] if data.get('data') else None
+
+        except requests.exceptions.HTTPError as e:
+            # 特别处理 429 Too Many Requests 错误
+            if e.response.status_code == 429:
+                wait_time = base_wait_time * (2 ** attempt) # 指数增加等待时间
+                print(f"收到 429 速率限制错误。将在 {wait_time} 秒后重试... (第 {attempt + 1}/{max_retries} 次)")
+                time.sleep(wait_time)
+            else:
+                # 对于其他 HTTP 错误, 直接报告并返回
+                print(f"获取 {date_str} 数据时发生 HTTP 错误: {e}")
+                return None
+        except requests.exceptions.RequestException as e:
+            # 对于网络连接等其他请求错误
+            print(f"获取 {date_str} 数据时 API 请求失败: {e}")
+            # 可以在这里也加入重试, 但对于连接问题, 直接返回可能更稳妥
+            return None
+
+    print(f"重试 {max_retries} 次后仍然失败, 放弃获取 {date_str} 的数据。")
+    return None
 
 def process_summary_data(summary: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """处理 API 返回的摘要数据, 格式化为我们需要的结构"""
-    # ... (此函数内容不变, 保留高精度秒)
     date = summary.get('range', {}).get('date')
     if not date:
         return None
@@ -144,7 +165,8 @@ def main():
     #    旧文件中其他日期的数据, 因为已经加载到了 `data_map` 中, 所以依然存在。
     for date_str in dates_to_update:
         summary = fetch_wakatime_for_date(api_key, date_str)
-        sleep(3) # 防止被封禁
+        # 随机 5 ~ 10 秒
+        sleep(random.randint(5, 10))
         if summary and (processed_entry := process_summary_data(summary)):
             data_map[date_str] = processed_entry
             print(f"已在内存中更新 {date_str} 的数据。")
