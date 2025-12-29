@@ -38,4 +38,4 @@
 - [速记之前遇到的msvc和gcc八嘎](https://HengXin666.github.io/HXLoLi/blog/2025/11/08/01_速记之前遇到的msvc和gcc八嘎) <sub><i>2025-11-08</i></sub>
 - [MSVC屎山代码发力了→requires前向声明问题](https://HengXin666.github.io/HXLoLi/blog/2025/11/01/01_MSVC屎山代码发力了) <sub><i>2025-11-01</i></sub>
 
-> 更新时间: 2025/12/29 00:29:31 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
+> 更新时间: 2025/12/30 00:30:37 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
