@@ -38,4 +38,4 @@
 - [MSVC ICE 编译期内部错误](https://HengXin666.github.io/HXLoLi/blog/2025/12/13/01_MSVC_ICE) <sub><i>2025-12-13</i></sub>
 - [速记之前遇到的msvc和gcc八嘎](https://HengXin666.github.io/HXLoLi/blog/2025/11/08/01_速记之前遇到的msvc和gcc八嘎) <sub><i>2025-11-08</i></sub>
 
-> 更新时间: 2026/01/22 00:56:49 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
+> 更新时间: 2026/01/23 00:40:06 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
