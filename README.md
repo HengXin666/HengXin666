@@ -32,10 +32,10 @@
 
 ## 📚 最新 [博客](https://hengxin666.github.io/HXLoLi/) 文章
 
+- [博客更新日志 (III)](https://HengXin666.github.io/HXLoLi/blog/2026/04/14/01_博客更新日志) <sub><i>2026-04-14</i></sub>
 - [【2025】年终总结](https://HengXin666.github.io/HXLoLi/blog/2025/12/31/01_2025年终总结) <sub><i>2025-12-31</i></sub>
 - [博客更新日志和计划 (II)](https://HengXin666.github.io/HXLoLi/blog/2025/12/28/01_博客更新日志和计划) <sub><i>2025-12-28</i></sub>
 - [博客更新日志和计划 (I)](https://HengXin666.github.io/HXLoLi/blog/2025/12/14/01_博客更新日志和计划) <sub><i>2025-12-14</i></sub>
 - [MSVC ICE 编译期内部错误](https://HengXin666.github.io/HXLoLi/blog/2025/12/13/01_MSVC_ICE) <sub><i>2025-12-13</i></sub>
-- [速记之前遇到的msvc和gcc八嘎](https://HengXin666.github.io/HXLoLi/blog/2025/11/08/01_速记之前遇到的msvc和gcc八嘎) <sub><i>2025-11-08</i></sub>
 
-> 更新时间: 2026/04/14 01:07:36 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
+> 更新时间: 2026/04/15 01:14:51 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
