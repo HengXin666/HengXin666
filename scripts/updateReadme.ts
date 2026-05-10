@@ -103,16 +103,11 @@ async function main() {
 
 <!-- 仓库 -->
 
-## 📚 最新 [博客](https://km.woa.qzz.io/) 文章
-
+## [个人博客](https://km.woa.qzz.io/)
+### Blog
 ${blogList}
 
-> 更新时间: ${beijingTime} (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
-
----
-
-## 📚 最新 [笔记](https://km.woa.qzz.io/docs) (Latest Docs)
-
+### Docs
 ${docsList}
 
 > 更新时间: ${beijingTime} (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
