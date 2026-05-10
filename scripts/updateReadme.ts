@@ -1,15 +1,28 @@
-import {writeFileSync} from "fs";
+import { writeFileSync } from "fs";
 import fetch from "node-fetch";
-import {parseStringPromise} from "xml2js";
+import { parseStringPromise } from "xml2js";
 
-const RSS_URL = "https://hengxin666.github.io/HXLoLi/blog/rss.xml";
+const BLOG_RSS_URL = "https://km.woa.qzz.io/blog/rss.xml";
+const DOCS_RSS_URL = "https://km.woa.qzz.io/docs-rss.xml";
 const README_PATH = "README.md";
 
-async function main() {
-  const res = await fetch(RSS_URL);
+async function fetchLatest(rssUrl: string, count: number) {
+  const res = await fetch(rssUrl);
   const xml = await res.text();
   const parsed = await parseStringPromise(xml);
-  const items = parsed.rss.channel[0].item.slice(0, 5); // 最新5条
+  return parsed.rss.channel[0].item.slice(0, count).map((item: any) => {
+    const title = item.title[0];
+    const link = item.link[0];
+    const date = new Date(item.pubDate?.[0] ?? "").toISOString().split("T")[0];
+    return { title, link, date };
+  });
+}
+
+async function main() {
+  const [blogItems, docsItems] = await Promise.all([
+    fetchLatest(BLOG_RSS_URL, 5),
+    fetchLatest(DOCS_RSS_URL, 5),
+  ]);
 
   const beijingTime = new Intl.DateTimeFormat("zh-CN", {
     timeZone: "Asia/Shanghai",
@@ -18,15 +31,16 @@ async function main() {
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit"
+    second: "2-digit",
   }).format(new Date());
 
-  const blogList = items.map((item: any) => {
-    const title = item.title[0];
-    const link = item.link[0];
-    const date = new Date(item.pubDate?.[0] ?? "").toISOString().split("T")[0];
-    return `- [${title}](${link}) <sub><i>${date}</i></sub>`;
-  }).join("\n");
+  const blogList = blogItems
+    .map((it) => `- [${it.title}](${it.link}) <sub><i>${it.date}</i></sub>`)
+    .join("\n");
+
+  const docsList = docsItems
+    .map((it) => `- [${it.title}](${it.link}) <sub><i>${it.date}</i></sub>`)
+    .join("\n");
 
   const readme = `<!-- https://github.com/kyechan99/capsule-render -->
 <div id="title" align=center>
@@ -60,9 +74,17 @@ async function main() {
 
 <!-- 仓库 -->
 
-## 📚 最新 [博客](https://hengxin666.github.io/HXLoLi/) 文章
+## 📚 最新 [博客](https://km.woa.qzz.io/) 文章
 
 ${blogList}
+
+> 更新时间: ${beijingTime} (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
+
+---
+
+## 📚 最新 [笔记](https://km.woa.qzz.io/docs) (Latest Docs)
+
+${docsList}
 
 > 更新时间: ${beijingTime} (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
 `;
@@ -71,7 +93,7 @@ ${blogList}
   console.log("README.md 已更新");
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error("更新失败:", err);
   process.exit(1);
 });
