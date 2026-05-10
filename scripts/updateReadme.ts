@@ -2,26 +2,55 @@ import { writeFileSync } from "fs";
 import fetch from "node-fetch";
 import { parseStringPromise } from "xml2js";
 
-const BLOG_RSS_URL = "https://km.woa.qzz.io/blog/rss.xml";
-const DOCS_RSS_URL = "https://km.woa.qzz.io/docs-rss.xml";
+// 优先 km.woa.qzz.io (Cloudflare), 回退 GitHub Pages
+const BLOG_RSS_URLS = [
+  "https://km.woa.qzz.io/blog/rss.xml",
+  "https://hengxin666.github.io/HXLoLi/blog/rss.xml",
+];
+const DOCS_RSS_URLS = [
+  "https://km.woa.qzz.io/docs-rss.xml",
+  "https://hengxin666.github.io/HXLoLi/docs-rss.xml",
+];
 const README_PATH = "README.md";
 
-async function fetchLatest(rssUrl: string, count: number) {
-  const res = await fetch(rssUrl);
-  const xml = await res.text();
-  const parsed = await parseStringPromise(xml);
-  return parsed.rss.channel[0].item.slice(0, count).map((item: any) => {
-    const title = item.title[0];
-    const link = item.link[0];
-    const date = new Date(item.pubDate?.[0] ?? "").toISOString().split("T")[0];
-    return { title, link, date };
-  });
+async function fetchLatest(urls: string[], count: number) {
+  let lastErr: Error | null = null;
+
+  for (const url of urls) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      const xml = await res.text();
+
+      // 宽容解析: 去掉可能被注入的 HTML 前缀 (Cloudflare 错误页等)
+      const xmlStart = xml.indexOf("<?xml");
+      const cleanXml = xmlStart >= 0 ? xml.slice(xmlStart) : xml;
+
+      const parsed = await parseStringPromise(cleanXml);
+      const items = parsed.rss.channel[0].item.slice(0, count).map((item: any) => {
+        const title = item.title[0];
+        const link = item.link[0];
+        const date = new Date(item.pubDate?.[0] ?? "").toISOString().split("T")[0];
+        return { title, link, date };
+      });
+
+      console.log(`  ✓ ${url} (${items.length} items)`);
+      return items;
+    } catch (err: any) {
+      console.warn(`  ✗ ${url}: ${err.message?.slice(0, 120)}`);
+      lastErr = err;
+    }
+  }
+
+  throw new Error(`所有 RSS URL 均失败: ${lastErr?.message}`);
 }
 
 async function main() {
   const [blogItems, docsItems] = await Promise.all([
-    fetchLatest(BLOG_RSS_URL, 5),
-    fetchLatest(DOCS_RSS_URL, 5),
+    fetchLatest(BLOG_RSS_URLS, 5),
+    fetchLatest(DOCS_RSS_URLS, 5),
   ]);
 
   const beijingTime = new Intl.DateTimeFormat("zh-CN", {
