@@ -32,17 +32,17 @@
 
 ## [个人博客](https://km.woa.qzz.io/)
 ### Blog
+- [Codex Free 号池搭建](https://HengXin666.github.io/HXLoLi/blog/2026/05/17/01_codexFreePool) <sub><i>2026-05-17</i></sub>
 - [最近的项目](https://HengXin666.github.io/HXLoLi/blog/2026/05/07/01_最近的项目) <sub><i>2026-05-07</i></sub>
 - [博客更新日志 (III)](https://HengXin666.github.io/HXLoLi/blog/2026/04/14/01_博客更新日志) <sub><i>2026-04-14</i></sub>
 - [【2025】年终总结](https://HengXin666.github.io/HXLoLi/blog/2025/12/31/01_2025年终总结) <sub><i>2025-12-31</i></sub>
 - [博客更新日志和计划 (II)](https://HengXin666.github.io/HXLoLi/blog/2025/12/28/01_博客更新日志和计划) <sub><i>2025-12-28</i></sub>
-- [博客更新日志和计划 (I)](https://HengXin666.github.io/HXLoLi/blog/2025/12/14/01_博客更新日志和计划) <sub><i>2025-12-14</i></sub>
 
 ### Docs
-- [剖析 std::ranges / std::views 库的胖次](https://HengXin666.github.io/HXLoLi/docs/程序语言/C++/现代C++/现代C++元模版/范围视图) <sub><i>2026-05-12</i></sub>
+- [剖析 std::ranges / std::views 库的胖次](https://HengXin666.github.io/HXLoLi/docs/程序语言/C++/现代C++/现代C++元模版/范围视图) <sub><i>2026-05-17</i></sub>
 - [HX::net 简介](https://HengXin666.github.io/HXLoLi/docs/开源项目/HXLibs/HX-net简介) <sub><i>2026-05-10</i></sub>
 - [分布式系统大厂面试高频知识点图解](https://HengXin666.github.io/HXLoLi/docs/面试/分布式系统面试知识点图解) <sub><i>2026-03-06</i></sub>
 - [后端开发大厂面试高频知识点图解（现代C++）](https://HengXin666.github.io/HXLoLi/docs/面试/后端开发面试知识点图解) <sub><i>2026-03-06</i></sub>
 - [操作系统大厂面试高频知识点图解](https://HengXin666.github.io/HXLoLi/docs/面试/操作系统面试知识点图解) <sub><i>2026-03-06</i></sub>
 
-> 更新时间: 2026/05/17 01:01:48 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
+> 更新时间: 2026/05/18 01:00:23 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
