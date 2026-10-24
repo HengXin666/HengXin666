@@ -94,5 +94,13 @@ export const CARDS: CardSource[] = [
   },
 ];
 
-/** 访客计数必须实时, 无法自托管; 原 komarev.com 已不可用 */
-export const VIEW_COUNTER_URL = "https://hits.sh/github.com/HengXin666.svg";
+/**
+ * 访客计数必须实时, 无法自托管; 原 komarev.com 已整站不可用 (上游 522 超时)。
+ *
+ * 换到 hits.sh 时计数会从 1 重新开始, 所以用 extraCount 把历史基数补回去:
+ * 存档快照 (web.archive.org, 2025-12) 显示旧 komarev 徽章约为 5K。
+ * 以后换计数服务时, 把当前显示值填进 extraCount 即可平滑接续。
+ */
+const VIEW_COUNT_BASE = 5000;
+export const VIEW_COUNTER_URL =
+  `https://hits.sh/github.com/HengXin666.svg?label=Profile%20Views&extraCount=${VIEW_COUNT_BASE}`;

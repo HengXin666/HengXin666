@@ -78,29 +78,31 @@ async function main() {
 
   const readme = `<div id="title" align=center>
 
+<!-- 注意: div 内的裸 <img> 是行内元素, 会被挤到同一行;
+     必须每张图单独用 <p> 包裹才会上下排列。 -->
+
 <!-- 头像 -->
-<img width="200" src="./img/misaka03.jpg" />
+<p><img width="200" src="./img/misaka03.jpg" /></p>
 
 <!-- 动态打字效果 (自托管) -->
-<img src="${C("typing")}" alt="Typing SVG" />
+<p><img src="${C("typing")}" alt="Typing SVG" /></p>
 
-<img align="center" width="400" src="${C("stats")}" title="GitHub Stats">
-<img align="center" width="400" src="${C("streak")}" title="GitHub Streak">
+<p><img width="400" src="${C("stats")}" title="GitHub Stats"><img width="400" src="${C("streak")}" title="GitHub Streak"></p>
 
-<img src="${C("activity")}" alt="Activity Graph" />
+<p><img src="${C("activity")}" alt="Activity Graph" /></p>
 
-<img src="${C("wakatime")}" alt="WakaTime Stats"><img src="${C("top-langs")}" alt="Top Langs" />
+<p><img src="${C("wakatime")}" alt="WakaTime Stats"><img src="${C("top-langs")}" alt="Top Langs" /></p>
 
-<img src="${C("skills")}" alt="Skills" />
+<p><img src="${C("skills")}" alt="Skills" /></p>
 
-<a href="https://learn.microsoft.com/zh-cn/cpp/cpp/welcome-back-to-cpp-modern-cpp"><img src="${C("badge-modern-cpp")}" alt="Modern C++"></a>
+<p><a href="https://learn.microsoft.com/zh-cn/cpp/cpp/welcome-back-to-cpp-modern-cpp"><img src="${C("badge-modern-cpp")}" alt="Modern C++"></a></p>
 
-<a href="https://github.com/HengXin666"><img src="${C("badge-github")}" alt="GitHub"></a>
+<p><a href="https://github.com/HengXin666"><img src="${C("badge-github")}" alt="GitHub"></a>
 <a href="https://space.bilibili.com/478917126"><img src="${C("badge-bilibili")}" alt="Bilibili"></a>
 <img src="${C("badge-qq")}" alt="QQ">
 <a href="https://leetcode.cn/u/heng_xin/"><img src="${C("badge-leetcode")}" alt="LeetCode"></a>
 <img src="${VIEW_COUNTER_URL}" alt="Profile Views">
-<img src="${C("badge-wakatime")}" alt="WakaTime Badge">
+<img src="${C("badge-wakatime")}" alt="WakaTime Badge"></p>
 
 </div>
 
