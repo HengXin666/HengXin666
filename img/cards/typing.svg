@@ -1,0 +1,135 @@
+<!-- https://github.com/DenverCoder1/readme-typing-svg/ -->
+<svg xmlns='http://www.w3.org/2000/svg'
+    xmlns:xlink='http://www.w3.org/1999/xlink'
+    viewBox='0 0 435 50'
+    style='background-color: #00000000;'
+    width='435px' height='50px'>
+
+    
+                    <path id='path0'>
+                            <!-- Single line -->
+                                <animate id='d0' attributeName='d' begin='0s;d8.end'
+                    dur='5200ms' fill='remove'
+                    values='m0,25 h0 ; m0,25 h435 ; m0,25 h435 ; m0,25 h0' keyTimes='0;0.49230769230769;0.87692307692308;1' />
+                    </path>
+    <text font-family='"Rampart One ", monospace' fill='#FD4AFF' font-size='20'
+        dominant-baseline='middle'
+        x='50%' text-anchor='middle'
+        letter-spacing='normal'>
+        <textPath xlink:href='#path0'>
+            背伸びして見える世界
+        </textPath>
+    </text>
+        <path id='path1'>
+                            <!-- Single line -->
+                                <animate id='d1' attributeName='d' begin='d0.end'
+                    dur='5200ms' fill='remove'
+                    values='m0,25 h0 ; m0,25 h435 ; m0,25 h435 ; m0,25 h0' keyTimes='0;0.49230769230769;0.87692307692308;1' />
+                    </path>
+    <text font-family='"Rampart One ", monospace' fill='#FD4AFF' font-size='20'
+        dominant-baseline='middle'
+        x='50%' text-anchor='middle'
+        letter-spacing='normal'>
+        <textPath xlink:href='#path1'>
+            あなたのため?
+        </textPath>
+    </text>
+        <path id='path2'>
+                            <!-- Single line -->
+                                <animate id='d2' attributeName='d' begin='d1.end'
+                    dur='5200ms' fill='remove'
+                    values='m0,25 h0 ; m0,25 h435 ; m0,25 h435 ; m0,25 h0' keyTimes='0;0.49230769230769;0.87692307692308;1' />
+                    </path>
+    <text font-family='"Rampart One ", monospace' fill='#FD4AFF' font-size='20'
+        dominant-baseline='middle'
+        x='50%' text-anchor='middle'
+        letter-spacing='normal'>
+        <textPath xlink:href='#path2'>
+            自分のため?
+        </textPath>
+    </text>
+        <path id='path3'>
+                            <!-- Single line -->
+                                <animate id='d3' attributeName='d' begin='d2.end'
+                    dur='5200ms' fill='remove'
+                    values='m0,25 h0 ; m0,25 h435 ; m0,25 h435 ; m0,25 h0' keyTimes='0;0.49230769230769;0.87692307692308;1' />
+                    </path>
+    <text font-family='"Rampart One ", monospace' fill='#FD4AFF' font-size='20'
+        dominant-baseline='middle'
+        x='50%' text-anchor='middle'
+        letter-spacing='normal'>
+        <textPath xlink:href='#path3'>
+            まだ分からない   感情の裏側
+        </textPath>
+    </text>
+        <path id='path4'>
+                            <!-- Single line -->
+                                <animate id='d4' attributeName='d' begin='d3.end'
+                    dur='5200ms' fill='remove'
+                    values='m0,25 h0 ; m0,25 h435 ; m0,25 h435 ; m0,25 h0' keyTimes='0;0.49230769230769;0.87692307692308;1' />
+                    </path>
+    <text font-family='"Rampart One ", monospace' fill='#FD4AFF' font-size='20'
+        dominant-baseline='middle'
+        x='50%' text-anchor='middle'
+        letter-spacing='normal'>
+        <textPath xlink:href='#path4'>
+            壊したい   壊してしまいたい
+        </textPath>
+    </text>
+        <path id='path5'>
+                            <!-- Single line -->
+                                <animate id='d5' attributeName='d' begin='d4.end'
+                    dur='5200ms' fill='remove'
+                    values='m0,25 h0 ; m0,25 h435 ; m0,25 h435 ; m0,25 h0' keyTimes='0;0.49230769230769;0.87692307692308;1' />
+                    </path>
+    <text font-family='"Rampart One ", monospace' fill='#FD4AFF' font-size='20'
+        dominant-baseline='middle'
+        x='50%' text-anchor='middle'
+        letter-spacing='normal'>
+        <textPath xlink:href='#path5'>
+            戻れないのなら
+        </textPath>
+    </text>
+        <path id='path6'>
+                            <!-- Single line -->
+                                <animate id='d6' attributeName='d' begin='d5.end'
+                    dur='5200ms' fill='remove'
+                    values='m0,25 h0 ; m0,25 h435 ; m0,25 h435 ; m0,25 h0' keyTimes='0;0.49230769230769;0.87692307692308;1' />
+                    </path>
+    <text font-family='"Rampart One ", monospace' fill='#FD4AFF' font-size='20'
+        dominant-baseline='middle'
+        x='50%' text-anchor='middle'
+        letter-spacing='normal'>
+        <textPath xlink:href='#path6'>
+            尚更強く抱きしめていたい
+        </textPath>
+    </text>
+        <path id='path7'>
+                            <!-- Single line -->
+                                <animate id='d7' attributeName='d' begin='d6.end'
+                    dur='5200ms' fill='remove'
+                    values='m0,25 h0 ; m0,25 h435 ; m0,25 h435 ; m0,25 h0' keyTimes='0;0.49230769230769;0.87692307692308;1' />
+                    </path>
+    <text font-family='"Rampart One ", monospace' fill='#FD4AFF' font-size='20'
+        dominant-baseline='middle'
+        x='50%' text-anchor='middle'
+        letter-spacing='normal'>
+        <textPath xlink:href='#path7'>
+            離れない優しさを消し去っても
+        </textPath>
+    </text>
+        <path id='path8'>
+                            <!-- Single line -->
+                                <animate id='d8' attributeName='d' begin='d7.end'
+                    dur='5200ms' fill='remove'
+                    values='m0,25 h0 ; m0,25 h435 ; m0,25 h435 ; m0,25 h0' keyTimes='0;0.49230769230769;0.87692307692308;1' />
+                    </path>
+    <text font-family='"Rampart One ", monospace' fill='#FD4AFF' font-size='20'
+        dominant-baseline='middle'
+        x='50%' text-anchor='middle'
+        letter-spacing='normal'>
+        <textPath xlink:href='#path8'>
+            悲しいくらい 溢れ出る思い
+        </textPath>
+    </text>
+</svg>

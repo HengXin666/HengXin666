@@ -2,7 +2,9 @@
   "name": "rss-readme-updater",
   "type": "module",
   "scripts": {
-    "update": "ts-node scripts/updateReadme.ts"
+    "cards": "node --loader ts-node/esm scripts/fetchCards.ts",
+    "update": "node --loader ts-node/esm scripts/updateReadme.ts",
+    "build": "npm run cards && npm run update"
   },
   "dependencies": {
     "xml2js": "^0.6.2",
