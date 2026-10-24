@@ -131,7 +131,7 @@
           stroke-width="25"
           stroke-dasharray="502.6548245743669"
           stroke-dashoffset="0"
-          size="43.107117608630304"
+          size="43.11684249149853"
           data-testid="lang-donut"
         />
       </g>
@@ -145,8 +145,8 @@
           stroke="#f34b7d"
           stroke-width="25"
           stroke-dasharray="502.6548245743669"
-          stroke-dashoffset="216.68000639472666"
-          size="19.54031640595192"
+          stroke-dashoffset="216.72888898764802"
+          size="19.536976316994064"
           data-testid="lang-donut"
         />
       </g>
@@ -160,8 +160,8 @@
           stroke="#3572A5"
           stroke-width="25"
           stroke-dasharray="502.6548245743669"
-          stroke-dashoffset="314.9003495463405"
-          size="19.038882827681913"
+          stroke-dashoffset="314.93244302097014"
+          size="19.035628450373913"
           data-testid="lang-donut"
         />
       </g>
@@ -175,8 +175,8 @@
           stroke="#00ADD8"
           stroke-width="25"
           stroke-dasharray="502.6548245743669"
-          stroke-dashoffset="410.6002126247443"
-          size="8.214777338003703"
+          stroke-dashoffset="410.6159478148254"
+          size="8.213373159764831"
           data-testid="lang-donut"
         />
       </g>
@@ -190,8 +190,8 @@
           stroke="#f1e05a"
           stroke-width="25"
           stroke-dasharray="502.6548245743669"
-          stroke-dashoffset="451.8921872422617"
-          size="3.745100992845527"
+          stroke-dashoffset="451.9008642626794"
+          size="3.7444608307205964"
           data-testid="lang-donut"
         />
       </g>
@@ -205,8 +205,8 @@
           stroke="#663399"
           stroke-width="25"
           stroke-dasharray="502.6548245743669"
-          stroke-dashoffset="470.71711806798226"
-          size="2.2643823032403065"
+          stroke-dashoffset="470.72257728259393"
+          size="2.263995245110321"
           data-testid="lang-donut"
         />
       </g>
@@ -220,8 +220,8 @@
           stroke="#89e051"
           stroke-width="25"
           stroke-dasharray="502.6548245743669"
-          stroke-dashoffset="482.0991449620278"
-          size="1.3006844207807349"
+          stroke-dashoffset="482.1026586102752"
+          size="1.3004620906208109"
           data-testid="lang-donut"
         />
       </g>
@@ -235,8 +235,8 @@
           stroke="#A97BFF"
           stroke-width="25"
           stroke-dasharray="502.6548245743669"
-          stroke-dashoffset="488.63709795556935"
-          size="1.2776408865203874"
+          stroke-dashoffset="488.63949405054143"
+          size="1.2774224952656856"
           data-testid="lang-donut"
         />
       </g>
@@ -250,8 +250,8 @@
           stroke="#44a51c"
           stroke-width="25"
           stroke-dasharray="502.6548245743669"
-          stroke-dashoffset="495.0592215123988"
-          size="0.802946447838306"
+          stroke-dashoffset="495.06051985319266"
+          size="0.8028091976265667"
           data-testid="lang-donut"
         />
       </g>
@@ -265,8 +265,8 @@
           stroke="#e34c26"
           stroke-width="25"
           stroke-dasharray="502.6548245743669"
-          stroke-dashoffset="499.0952705712065"
-          size="0.7081507685068976"
+          stroke-dashoffset="499.09587901718936"
+          size="0.7080297220246787"
           data-testid="lang-donut"
         />
       </g>
@@ -279,7 +279,7 @@
     <g class="stagger" style="animation-delay: 450ms">
       <circle cx="5" cy="6" r="5" fill="#3178c6" />
       <text data-testid="lang-name" x="15" y="10" class='lang-name'>
-        TypeScript 43.11%
+        TypeScript 43.12%
       </text>
     </g>
   </g><g transform="translate(0, 25)">
@@ -307,7 +307,7 @@
     <g class="stagger" style="animation-delay: 1050ms">
       <circle cx="5" cy="6" r="5" fill="#f1e05a" />
       <text data-testid="lang-name" x="15" y="10" class='lang-name'>
-        JavaScript 3.75%
+        JavaScript 3.74%
       </text>
     </g>
   </g></g><g transform="translate(150, 0)"><g transform="translate(0, 0)">
