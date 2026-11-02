@@ -8,7 +8,7 @@
         aria-labelledby="descId"
       >
         <title id="titleId">Heng_Xin&#12398; GitHub &#32113;&#35336;, Rank: A+</title>
-        <desc id="descId">スターされた数: 392, 合計コミット数  (昨年) : 3320, 合計 PR: 215, 合計 issue: 84, 貢献したリポジトリ （昨年）: 7</desc>
+        <desc id="descId">スターされた数: 393, 合計コミット数  (昨年) : 3336, 合計 PR: 217, 合計 issue: 84, 貢献したリポジトリ （昨年）: 7</desc>
         <style>
           .header {
             font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
@@ -72,7 +72,7 @@
         stroke-dashoffset: 251.32741228718345;
       }
       to {
-        stroke-dashoffset: 26.769684195112823;
+        stroke-dashoffset: 26.66088618384102;
       }
     }
   
@@ -161,7 +161,7 @@
         x="269.01"
         y="12.5"
         data-testid="stars"
-      >392</text>
+      >393</text>
     </g>
   </g><g transform="translate(0, 25)">
     <g class="stagger" style="animation-delay: 600ms" transform="translate(25, 0)">
@@ -191,7 +191,7 @@
         x="269.01"
         y="12.5"
         data-testid="prs"
-      >215</text>
+      >217</text>
     </g>
   </g><g transform="translate(0, 75)">
     <g class="stagger" style="animation-delay: 900ms" transform="translate(25, 0)">
