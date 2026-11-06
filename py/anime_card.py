@@ -7,7 +7,8 @@
   - 6 列封面, 间距 12, 比例 12:17, 圆角 8, 1px 描边; 下方剧名 12px 两行截断, 元信息 11px 等宽 "x / y 话 · 评分"
 
 数据源: HXLoLi-ANiMe 仓库的 data/ANiMeRecord.json 与 data/anime/{id}.jpg
-  - 筛出 watch_status == 3 (在看), 按 user_status.last_update (ISO 8601) 倒序取前 N 部, 与主页同口径
+  - 筛出 watch_status == 3 (在看), 按 sort_key 倒序取前 N 部: 先有进度, 再按放送日期 anime_data.date
+    (last_update 会被标签回填刷新, 不再用作排序键, 见 sort_key 注释)
   - 封面 base64 内嵌 (GitHub camo 不加载 SVG 内的外链图片)
   - 所有文字不含 emoji / 装饰符号 (U+1F300-1FAFF, U+2600-27BF 等), 剧名里的这类符号会被去掉
 
@@ -145,10 +146,22 @@ def cover_data_uri(img: Path) -> str | None:
     return "data:image/jpeg;base64," + base64.b64encode(raw).decode()
 
 
+def sort_key(r: dict) -> tuple:
+    """在看的排序键: (有进度, anime_data.date 放送日期, id), 倒序.
+
+    不用 user_status.last_update: 2026-11-06 的标签回填把 187 部的 last_update 刷成同一天
+    (只改了 tags, 进度/状态没动), 它已不代表"最近更新进度". 放送日期只来自番剧本身, 不受标签与爬虫
+    时间影响; 在看列表里放送越新的越是正在逐周追的. 同日放送用 id 定序, 保证不同快照结果一致.
+    """
+    a, u = r.get("anime_data", {}), r.get("user_status", {})
+    has_progress = int(u.get("watched_eps") or 0) > 0
+    return (has_progress, str(a.get("date") or ""), int(a.get("id") or 0))
+
+
 def pick_watching(records: list[dict], limit: int) -> list[dict]:
-    """在看, 按 last_update 倒序 (与 HomeAnime.tsx 同口径)."""
+    """在看, 按 sort_key 倒序: 先有进度的, 再按放送日期 (anime_data.date) 从新到旧."""
     watching = [r for r in records if r.get("user_status", {}).get("watch_status") == WATCHING]
-    watching.sort(key=lambda r: parse_last_update(r["user_status"].get("last_update", "")), reverse=True)
+    watching.sort(key=sort_key, reverse=True)
     return watching[:limit]
 
 
@@ -207,7 +220,7 @@ def render(records: list[dict], data_dir: Path, limit: int) -> str:
     o.append(f'<text class="h" x="{OUTER}" y="{HEAD_Y}">在追的番</text>')
     o.append(
         f'<text class="d" x="{CARD_W - OUTER}" y="{HEAD_Y}" text-anchor="end">'
-        f"BanGuMi 追番记录, 封面是最近更新进度的在看</text>"
+        f"BanGuMi 追番记录, 封面是在看里放送最新的几部</text>"
     )
 
     # 面板
@@ -290,7 +303,7 @@ def main() -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(svg, encoding="utf-8")
     for r in pick_watching(records, args.limit):
-        print(f"  {r['user_status'].get('last_update')}  {display_name(r['anime_data'])}")
+        print(f"  {r['anime_data'].get('date')}  {display_name(r['anime_data'])}")
     print(f"[anime_card] 已生成 {out} ({out.stat().st_size // 1024} KiB)")
     return 0
 
