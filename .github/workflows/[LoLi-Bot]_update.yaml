@@ -50,7 +50,7 @@ jobs:
 
       # 3. 顺序执行任务一: WakaTime 数据同步
       - name: Install Python dependencies
-        run: pip install requests
+        run: pip install requests pillow
 
       - name: 运行 WakaTime 同步脚本
         env:
@@ -68,6 +68,28 @@ jobs:
       - name: 更新 README 卡片 (自托管)
         run: node --loader ts-node/esm scripts/fetchCards.ts
 
+      # 追番卡片: 匿名 sparse 检出 HXLoLi-ANiMe 的追番数据 (只要 ANiMeRecord.json 与封面),
+      # 生成 img/cards/anime.svg。放在 fetchCards.ts 之后, 不会被它覆盖; 失败时保留旧卡片。
+      - name: 检出追番数据 (HXLoLi-ANiMe)
+        uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          repository: HengXin666/HXLoLi-ANiMe
+          path: .anime-data
+          sparse-checkout: |
+            data/ANiMeRecord.json
+            data/anime
+          sparse-checkout-cone-mode: false
+
+      - name: 生成追番卡片
+        env:
+          ANIME_DATA_DIR: .anime-data/data
+        run: python py/anime_card.py || true
+
+      - name: 清理追番数据检出
+        if: always()
+        run: rm -rf .anime-data
+
       - name: 运行博客文章更新脚本
         run: node --loader ts-node/esm scripts/updateReadme.ts
 
@@ -76,7 +98,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           # 使用您的机器人名称作为提交信息
-          commit_message: '[LoLi-Bot]: ご主人さま　毎日のアップデート にゃ~　(WakaTime & Blog)'
+          commit_message: '[LoLi-Bot]: ご主人さま　毎日のアップデート にゃ~　(WakaTime & Blog & ANiMe)'
           # 设置为您指定的 Git 用户身份
           commit_user_name: 'Heng_Xin[LoLi-Bot]'
           commit_user_email: '282000500@qq.com'

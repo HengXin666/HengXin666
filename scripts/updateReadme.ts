@@ -93,6 +93,8 @@ async function main() {
 
 <p><img src="${C("wakatime")}" alt="WakaTime Stats"><img src="${C("top-langs")}" alt="Top Langs" /></p>
 
+<p><img src="${C("anime")}" alt="追番中" title="追番中 (From HXLoLi-ANiMe)"></p>
+
 <p><img src="${C("skills")}" alt="Skills" /></p>
 
 <p><a href="https://learn.microsoft.com/zh-cn/cpp/cpp/welcome-back-to-cpp-modern-cpp"><img src="${C("badge-modern-cpp")}" alt="Modern C++"></a></p>
