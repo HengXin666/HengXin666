@@ -34,28 +34,14 @@
 
 ## [最近更新](https://km.woa.qzz.io/)
 
-### 博客 <sub><code>5</code></sub>
+<div align=center>
 
-| 标题 | 日期 |
-| :-- | --: |
-| [自用AI代码质量规范](https://HengXin666.github.io/HXLoLi/blog/2026/10/07/01-AI代码质量) | <code>2026-10-07</code> |
-| [接受审判: I](https://HengXin666.github.io/HXLoLi/blog/2026/09/06/01_部门答辩) | <code>2026-09-06</code> |
-| [Codex Free 号池搭建](https://HengXin666.github.io/HXLoLi/blog/2026/05/17/01_codexFreePool) | <code>2026-05-17</code> |
-| [最近的项目](https://HengXin666.github.io/HXLoLi/blog/2026/05/07/01_最近的项目) | <code>2026-05-07</code> |
-| [博客更新日志 (III)](https://HengXin666.github.io/HXLoLi/blog/2026/04/14/01_博客更新日志) | <code>2026-04-14</code> |
+<p><a href="https://km.woa.qzz.io/"><img src="./img/cards/latest.svg" alt="最近更新" title="最近更新 (From HXLoLi)"></a></p>
 
-<sub><a href="https://km.woa.qzz.io/blog">全部博客</a></sub>
+<p><sub><b>博客</b> &nbsp; <code>01</code> <a href="https://HengXin666.github.io/HXLoLi/blog/2026/10/07/01-AI代码质量">自用AI代码质量规范</a> &nbsp;·&nbsp; <code>02</code> <a href="https://HengXin666.github.io/HXLoLi/blog/2026/09/06/01_部门答辩">接受审判: I</a> &nbsp;·&nbsp; <code>03</code> <a href="https://HengXin666.github.io/HXLoLi/blog/2026/05/17/01_codexFreePool">Codex Free 号池搭建</a> &nbsp;·&nbsp; <code>04</code> <a href="https://HengXin666.github.io/HXLoLi/blog/2026/05/07/01_最近的项目">最近的项目</a> &nbsp;·&nbsp; <code>05</code> <a href="https://HengXin666.github.io/HXLoLi/blog/2026/04/14/01_博客更新日志">博客更新日志 (III)</a> &nbsp;·&nbsp; <a href="https://km.woa.qzz.io/blog">全部博客</a></sub></p>
 
-### 笔记 <sub><code>5</code></sub>
+<p><sub><b>笔记</b> &nbsp; <code>01</code> <a href="https://hengxin666.github.io/HXLoLi/docs/%E8%AE%A1%E4%BD%AC%E5%B8%B8%E8%AD%98/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F">简单工厂模式</a> &nbsp;·&nbsp; <code>02</code> <a href="https://hengxin666.github.io/HXLoLi/docs/%E8%AE%A1%E4%BD%AC%E5%B8%B8%E8%AD%98/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F">原型模式</a> &nbsp;·&nbsp; <code>03</code> <a href="https://hengxin666.github.io/HXLoLi/docs/%E8%AE%A1%E4%BD%AC%E5%B8%B8%E8%AD%98/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%80%BB%E8%A7%88/%E8%BD%AF%E4%BB%B6%E8%A7%86%E8%A7%92%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8">软件视角和系统调用</a> &nbsp;·&nbsp; <code>04</code> <a href="https://hengxin666.github.io/HXLoLi/docs/%E8%AE%A1%E4%BD%AC%E5%B8%B8%E8%AD%98/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%80%BB%E8%A7%88/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B1%95%E5%8F%B2">操作系统发展史</a> &nbsp;·&nbsp; <code>05</code> <a href="https://hengxin666.github.io/HXLoLi/docs/%E8%AE%A1%E4%BD%AC%E5%B8%B8%E8%AD%98/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/%E8%BF%9B%E7%A8%8B%E7%AE%80%E4%BB%8B%E5%8F%8A%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B">进程简介及进程编程模型</a> &nbsp;·&nbsp; <a href="https://km.woa.qzz.io/docs/关于">全部笔记</a></sub></p>
 
-| 分类 | 标题 | 日期 |
-| :-- | :-- | --: |
-| <sub>计佬常識</sub> | [简单工厂模式](https://hengxin666.github.io/HXLoLi/docs/%E8%AE%A1%E4%BD%AC%E5%B8%B8%E8%AD%98/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F) | <code>2026-10-08</code> |
-| <sub>计佬常識</sub> | [原型模式](https://hengxin666.github.io/HXLoLi/docs/%E8%AE%A1%E4%BD%AC%E5%B8%B8%E8%AD%98/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F) | <code>2026-10-08</code> |
-| <sub>计佬常識</sub> | [软件视角和系统调用](https://hengxin666.github.io/HXLoLi/docs/%E8%AE%A1%E4%BD%AC%E5%B8%B8%E8%AD%98/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%80%BB%E8%A7%88/%E8%BD%AF%E4%BB%B6%E8%A7%86%E8%A7%92%E5%92%8C%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8) | <code>2026-10-08</code> |
-| <sub>计佬常識</sub> | [操作系统发展史](https://hengxin666.github.io/HXLoLi/docs/%E8%AE%A1%E4%BD%AC%E5%B8%B8%E8%AD%98/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%80%BB%E8%A7%88/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B1%95%E5%8F%B2) | <code>2026-10-08</code> |
-| <sub>计佬常識</sub> | [进程简介及进程编程模型](https://hengxin666.github.io/HXLoLi/docs/%E8%AE%A1%E4%BD%AC%E5%B8%B8%E8%AD%98/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/%E8%BF%9B%E7%A8%8B%E7%AE%80%E4%BB%8B%E5%8F%8A%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B) | <code>2026-10-08</code> |
+<p><sub>更新时间: 2026/11/07 02:01:33 (北京时间) · From <a href="https://github.com/HengXin666/HXLoLi">HXLoLi</a> · 每日凌晨更新</sub></p>
 
-<sub><a href="https://km.woa.qzz.io/docs/关于">全部笔记</a></sub>
-
-> 更新时间: 2026/11/07 00:45:31 (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
+</div>
