@@ -68,13 +68,31 @@ async function main() {
     second: "2-digit",
   }).format(new Date());
 
-  const blogList = blogItems
-    .map((it) => `- [${it.title}](${it.link}) <sub><i>${it.date}</i></sub>`)
-    .join("\n");
+  // 最近更新: 照 HXLoLi 主页"最近更新"的写法 (分类 + 计数作小节头, 一行一条: 分类 / 标题 / 等宽日期右对齐, 页脚"全部 xx").
+  // GitHub Markdown 没有交互 tab, 两栏改成上下两个静态小节, 每节一张表; 不用表情符号.
+  const cell = (s: string) => s.replace(/\|/g, "\\|");
+  // 笔记的分类 = 链接里 /docs/ 后的第一段 (与 RSS 的 <category> 一致), 解析失败就留空
+  const docCat = (link: string) => {
+    try {
+      return decodeURIComponent(new URL(link).pathname).split("/docs/")[1]?.split("/")[0] ?? "";
+    } catch {
+      return "";
+    }
+  };
 
-  const docsList = docsItems
-    .map((it) => `- [${it.title}](${it.link}) <sub><i>${it.date}</i></sub>`)
-    .join("\n");
+  const blogList = [
+    "| 标题 | 日期 |",
+    "| :-- | --: |",
+    ...blogItems.map((it) => `| [${cell(it.title)}](${it.link}) | <code>${it.date}</code> |`),
+  ].join("\n");
+
+  const docsList = [
+    "| 分类 | 标题 | 日期 |",
+    "| :-- | :-- | --: |",
+    ...docsItems.map(
+      (it) => `| <sub>${cell(docCat(it.link))}</sub> | [${cell(it.title)}](${it.link}) | <code>${it.date}</code> |`,
+    ),
+  ].join("\n");
 
   const readme = `<div id="title" align=center>
 
@@ -110,12 +128,19 @@ async function main() {
 
 <!-- 仓库 -->
 
-## [个人博客](https://km.woa.qzz.io/)
-### Blog
+## [最近更新](https://km.woa.qzz.io/)
+
+### 博客 <sub><code>${blogItems.length}</code></sub>
+
 ${blogList}
 
-### Docs
+<sub><a href="https://km.woa.qzz.io/blog">全部博客</a></sub>
+
+### 笔记 <sub><code>${docsItems.length}</code></sub>
+
 ${docsList}
+
+<sub><a href="https://km.woa.qzz.io/docs/关于">全部笔记</a></sub>
 
 > 更新时间: ${beijingTime} (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
 `;
