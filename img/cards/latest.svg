@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="520" viewBox="0 0 840 520" role="img" aria-label="最近更新">
+<style>
+.h{font:600 20px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;fill:#e3e3e3;letter-spacing:-0.2px}
+.d{font:400 13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;fill:#ccd0d5}
+.s{font:600 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;fill:#e3e3e3}
+.k{font:600 13px SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;fill:#ff88ff}
+.a{font:400 13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;fill:#ff88ff}
+.ix{font:400 11px SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;fill:#ff88ff}
+.c{font:400 11px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;fill:#ff88ff}
+.n{font:400 12px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;fill:#e3e3e3}
+.m{font:400 11px SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;fill:#ccd0d5}
+.l{font:400 11px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;fill:#ccd0d5}
+</style>
+<rect width="840" height="520" rx="12" fill="#121212"/>
+<text class="h" x="20" y="34">最近更新</text>
+<text class="d" x="820" y="34" text-anchor="end">HXLoLi 博客与笔记, 编号对应下方链接</text>
+<g transform="translate(20,56)">
+<rect x="0.5" y="0.5" width="799" height="205" rx="12" fill="#ffffff" fill-opacity="0.025" stroke="#444950"/>
+<g transform="translate(16,16)">
+<text class="s" x="0" y="15">博客</text>
+<text class="k" x="36" y="15">5</text>
+<text class="a" x="768" y="15" text-anchor="end">全部博客 →</text>
+<rect y="24.5" width="768" height="1" fill="#444950" fill-opacity="0.6"/>
+<text class="ix" x="0" y="43">01</text>
+<text class="n" x="28" y="43">自用AI代码质量规范</text>
+<text class="m" x="768" y="43" text-anchor="end">2026-10-07</text>
+<rect y="54.5" width="768" height="1" fill="#444950" fill-opacity="0.6"/>
+<text class="ix" x="0" y="73">02</text>
+<text class="n" x="28" y="73">接受审判: I</text>
+<text class="m" x="768" y="73" text-anchor="end">2026-09-06</text>
+<rect y="84.5" width="768" height="1" fill="#444950" fill-opacity="0.6"/>
+<text class="ix" x="0" y="103">03</text>
+<text class="n" x="28" y="103">Codex Free 号池搭建</text>
+<text class="m" x="768" y="103" text-anchor="end">2026-05-17</text>
+<rect y="114.5" width="768" height="1" fill="#444950" fill-opacity="0.6"/>
+<text class="ix" x="0" y="133">04</text>
+<text class="n" x="28" y="133">最近的项目</text>
+<text class="m" x="768" y="133" text-anchor="end">2026-05-07</text>
+<rect y="144.5" width="768" height="1" fill="#444950" fill-opacity="0.6"/>
+<text class="ix" x="0" y="163">05</text>
+<text class="n" x="28" y="163">博客更新日志 (III)</text>
+<text class="m" x="768" y="163" text-anchor="end">2026-04-14</text>
+</g></g>
+<g transform="translate(20,278)">
+<rect x="0.5" y="0.5" width="799" height="205" rx="12" fill="#ffffff" fill-opacity="0.025" stroke="#444950"/>
+<g transform="translate(16,16)">
+<text class="s" x="0" y="15">笔记</text>
+<text class="k" x="36" y="15">5</text>
+<text class="a" x="768" y="15" text-anchor="end">全部笔记 →</text>
+<rect y="24.5" width="768" height="1" fill="#444950" fill-opacity="0.6"/>
+<text class="ix" x="0" y="43">01</text>
+<rect x="28" y="30" width="56" height="18" rx="4" fill="#ff88ff" fill-opacity="0.12"/>
+<text class="c" x="34" y="42.5">计佬常識</text>
+<text class="n" x="94" y="43">简单工厂模式</text>
+<text class="m" x="768" y="43" text-anchor="end">2026-10-08</text>
+<rect y="54.5" width="768" height="1" fill="#444950" fill-opacity="0.6"/>
+<text class="ix" x="0" y="73">02</text>
+<rect x="28" y="60" width="56" height="18" rx="4" fill="#ff88ff" fill-opacity="0.12"/>
+<text class="c" x="34" y="72.5">计佬常識</text>
+<text class="n" x="94" y="73">原型模式</text>
+<text class="m" x="768" y="73" text-anchor="end">2026-10-08</text>
+<rect y="84.5" width="768" height="1" fill="#444950" fill-opacity="0.6"/>
+<text class="ix" x="0" y="103">03</text>
+<rect x="28" y="90" width="56" height="18" rx="4" fill="#ff88ff" fill-opacity="0.12"/>
+<text class="c" x="34" y="102.5">计佬常識</text>
+<text class="n" x="94" y="103">软件视角和系统调用</text>
+<text class="m" x="768" y="103" text-anchor="end">2026-10-08</text>
+<rect y="114.5" width="768" height="1" fill="#444950" fill-opacity="0.6"/>
+<text class="ix" x="0" y="133">04</text>
+<rect x="28" y="120" width="56" height="18" rx="4" fill="#ff88ff" fill-opacity="0.12"/>
+<text class="c" x="34" y="132.5">计佬常識</text>
+<text class="n" x="94" y="133">操作系统发展史</text>
+<text class="m" x="768" y="133" text-anchor="end">2026-10-08</text>
+<rect y="144.5" width="768" height="1" fill="#444950" fill-opacity="0.6"/>
+<text class="ix" x="0" y="163">05</text>
+<rect x="28" y="150" width="56" height="18" rx="4" fill="#ff88ff" fill-opacity="0.12"/>
+<text class="c" x="34" y="162.5">计佬常識</text>
+<text class="n" x="94" y="163">进程简介及进程编程模型</text>
+<text class="m" x="768" y="163" text-anchor="end">2026-10-08</text>
+</g></g>
+<text class="m" x="820" y="506" text-anchor="end">2026/11/07 01:54:06 (北京时间) · From HXLoLi</text>
+</svg>

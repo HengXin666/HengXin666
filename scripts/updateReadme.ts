@@ -2,6 +2,7 @@ import { writeFileSync } from "fs";
 import fetch from "node-fetch";
 import { parseStringPromise } from "xml2js";
 import { VIEW_COUNTER_URL } from "./cards.js";
+import { renderLatestSvg } from "./renderLatestCards.js";
 
 // 优先 km.woa.qzz.io (Cloudflare), 回退 GitHub Pages
 const BLOG_RSS_URLS = [
@@ -68,31 +69,19 @@ async function main() {
     second: "2-digit",
   }).format(new Date());
 
-  // 最近更新: 照 HXLoLi 主页"最近更新"的写法 (分类 + 计数作小节头, 一行一条: 分类 / 标题 / 等宽日期右对齐, 页脚"全部 xx").
-  // GitHub Markdown 没有交互 tab, 两栏改成上下两个静态小节, 每节一张表; 不用表情符号.
-  const cell = (s: string) => s.replace(/\|/g, "\\|");
-  // 笔记的分类 = 链接里 /docs/ 后的第一段 (与 RSS 的 <category> 一致), 解析失败就留空
-  const docCat = (link: string) => {
-    try {
-      return decodeURIComponent(new URL(link).pathname).split("/docs/")[1]?.split("/")[0] ?? "";
-    } catch {
-      return "";
-    }
-  };
+  // 最近更新: 渲染成自托管 SVG 卡片 img/cards/latest.svg (与 anime.svg 同一套暗色视觉, 纯文字, 无内嵌图片).
+  // GitHub 会剥掉 <img> 引用的 SVG 里的 <a>, 所以链接放在 README 层:
+  //   卡片整体用 <a> 包到站点首页; 卡片下方每条一行编号链接, 编号与卡片里的 01..05 一一对应.
+  writeFileSync("img/cards/latest.svg", renderLatestSvg(blogItems, docsItems, beijingTime));
 
-  const blogList = [
-    "| 标题 | 日期 |",
-    "| :-- | --: |",
-    ...blogItems.map((it) => `| [${cell(it.title)}](${it.link}) | <code>${it.date}</code> |`),
-  ].join("\n");
+  const html = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const n2 = (i: number) => String(i + 1).padStart(2, "0");
+  const linkRow = (items: { title: string; link: string }[]) =>
+    items.map((it, i) => `<code>${n2(i)}</code> <a href="${html(it.link)}">${html(it.title)}</a>`).join(" &nbsp;·&nbsp; ");
 
-  const docsList = [
-    "| 分类 | 标题 | 日期 |",
-    "| :-- | :-- | --: |",
-    ...docsItems.map(
-      (it) => `| <sub>${cell(docCat(it.link))}</sub> | [${cell(it.title)}](${it.link}) | <code>${it.date}</code> |`,
-    ),
-  ].join("\n");
+  const blogList = linkRow(blogItems);
+  const docsList = linkRow(docsItems);
 
   const readme = `<div id="title" align=center>
 
@@ -130,19 +119,17 @@ async function main() {
 
 ## [最近更新](https://km.woa.qzz.io/)
 
-### 博客 <sub><code>${blogItems.length}</code></sub>
+<div align=center>
 
-${blogList}
+<p><a href="https://km.woa.qzz.io/"><img src="${C("latest")}" alt="最近更新" title="最近更新 (From HXLoLi)"></a></p>
 
-<sub><a href="https://km.woa.qzz.io/blog">全部博客</a></sub>
+<p><sub><b>博客</b> &nbsp; ${blogList} &nbsp;·&nbsp; <a href="https://km.woa.qzz.io/blog">全部博客</a></sub></p>
 
-### 笔记 <sub><code>${docsItems.length}</code></sub>
+<p><sub><b>笔记</b> &nbsp; ${docsList} &nbsp;·&nbsp; <a href="https://km.woa.qzz.io/docs/关于">全部笔记</a></sub></p>
 
-${docsList}
+<p><sub>更新时间: ${beijingTime} (北京时间) · From <a href="https://github.com/HengXin666/HXLoLi">HXLoLi</a> · 每日凌晨更新</sub></p>
 
-<sub><a href="https://km.woa.qzz.io/docs/关于">全部笔记</a></sub>
-
-> 更新时间: ${beijingTime} (北京时间) | From [HXLoLi](https://github.com/HengXin666/HXLoLi) <sub>[每日凌晨更新]</sub>
+</div>
 `;
 
   writeFileSync(README_PATH, readme);
