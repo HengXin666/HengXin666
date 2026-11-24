@@ -6,7 +6,7 @@
     width='435px' height='50px'>
 
     
-                            <path id='path0'>
+                                <path id='path0'>
                             <!-- Single line -->
                                 <animate id='d0' attributeName='d' begin='0s;d8.end'
                     dur='5200ms' fill='remove'
