@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
-"""生成 README 追番卡片 img/cards/anime.svg
+"""生成 README「最近在看」: 每部番一张独立封面卡 img/cards/anime/<n>.svg + 清单 index.json
 
-样式对齐 HXLoLi 主页"在追的番"区块 (HXLoLi/src/components/home/HomeAnime.tsx + page.module.css, 暗色主题):
-  - 区块标题 20px/600 + 右侧 13px 说明, 面板 1px 描边 / 圆角 12 / 内边距 16
-  - 一行 6 格计数 (记录 看过 在看 搁置 想看 抛弃): 1px 分隔线, 外圈圆角 10, 数字等宽 20px/600, 第一格主色
-  - 6 列封面, 间距 12, 比例 12:17, 圆角 8, 1px 描边; 下方剧名 12px 两行截断, 元信息 11px 等宽 "x / y 话 · 评分"
+README 里每张封面各自用 <a> 包住, 点哪部进哪部的详情页 (GitHub 用 <img> 引 SVG 会剥掉内部链接,
+一张大图只能一个链接, 所以一部一张). 清单由 scripts/profile/render.ts 读取并拼进 README.
 
-数据源: HXLoLi-ANiMe 仓库的 data/ANiMeRecord.json 与 data/anime/{id}.jpg
-  - 筛出 watch_status == 3 (在看), 按 sort_key 倒序取前 N 部: 先有进度, 再按放送日期 anime_data.date
-    (last_update 会被标签回填刷新, 不再用作排序键, 见 sort_key 注释)
-  - 封面 base64 内嵌 (GitHub camo 不加载 SVG 内的外链图片)
-  - 所有文字不含 emoji / 装饰符号 (U+1F300-1FAFF, U+2600-27BF 等), 剧名里的这类符号会被去掉
+选取规则与博客首页 HomeAnime 相同 (HXLoLi/src/utils/anime/recent.ts):
+  - 候选 = 在看 / 看过 / 搁置; 想看没有进度, 抛弃不展示
+  - 按 user_status.last_update 倒序取前 N. 爬虫只在观看状态或已看集数变化时推进 last_update,
+    所以它就是最近一次真的看了 / 改了进度的时间; 看完的老番也会出现, 很久没动的在看会自然沉下去
+  - 每部标阶段 (在看 / 看完 / 搁置) 和进度条; 在看且已放送集数多于已看时标出"更新到第 N 话"
+
+视觉与 scripts/profile/theme.ts 一致: 明暗两套 CSS 变量跟随系统, CSS 动画, 不用任何文字符号当图标.
+
+数据源: HXLoLi-ANiMe 的 data/ANiMeIndex.json (轻量索引, 含剧集放送日期; 没有时退回 ANiMeRecord.json)
+与 data/anime/{id}.jpg. 封面 base64 内嵌 (<img> 里的 SVG 不加载外链图片), 装了 Pillow 时先缩小.
 
 用法:
-  python py/anime_card.py [--data <HXLoLi-ANiMe/data 目录>] [--out img/cards/anime.svg] [--limit 6]
+  python py/anime_card.py [--data <HXLoLi-ANiMe/data 目录>] [--out img/cards/anime] [--limit 6]
   数据目录默认取环境变量 ANIME_DATA_DIR, 否则 .anime-data/data (workflow 的检出位置)
-
-只读追番数据, 不修改它; 只依赖标准库, 装了 Pillow 时会把封面缩小以减小 SVG 体积.
 """
 from __future__ import annotations
 
@@ -27,84 +28,45 @@ import json
 import os
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# WatchStatus 枚举 (见 HXLoLi-ANiMe/scripts/crawler/ANiMeType.py)
+# WatchStatus 枚举 (HXLoLi-ANiMe/scripts/crawler/ANiMeType.py)
 WANT, WATCHED, WATCHING, ON_HOLD, DROPPED = 1, 2, 3, 4, 5
-# 与 HomeAnime.tsx 的 STATUS_ORDER 同序, 前面再加一格"记录"
-STATUS_ORDER = [(WATCHED, "看过"), (WATCHING, "在看"), (ON_HOLD, "搁置"), (WANT, "想看"), (DROPPED, "抛弃")]
+PHASE = {WATCHING: ("watching", "在看", "var(--pk)"), WATCHED: ("finished", "看完", "var(--gr)"), ON_HOLD: ("paused", "搁置", "var(--faint)")}
+COUNT_ORDER = [(WATCHED, "看过"), (WATCHING, "在看"), (ON_HOLD, "搁置"), (WANT, "想看")]
 
-# ---- 主题令牌 (HXLoLi custom.css 暗色 + Docusaurus 暗色灰阶) ----
-BG = "#121212"            # --ifm-background-color (dark)
-SURFACE = "#ffffff"       # --hx-surface: rgba(255,255,255,0.025)
-SURFACE_OP = 0.025
-LINE = "#444950"          # --hx-line = --ifm-color-emphasis-200 (dark)
-FAINT = "#ccd0d5"         # --hx-faint = --ifm-color-emphasis-600 (dark)
-TEXT = "#e3e3e3"          # --ifm-font-color-base (dark)
-PRIMARY = "#ff88ff"       # --ifm-color-primary
-PLACEHOLDER_OP = 0.04     # 封面底色 rgba(255,255,255,0.04)
-SANS = ("-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, "
-        "'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif")
-MONO = "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
+# ---- 与 scripts/profile/theme.ts 相同的令牌 ----
+SANS = ("-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,'PingFang SC',"
+        "'Hiragino Sans','Microsoft YaHei','Noto Sans CJK SC',sans-serif")
+MONO = "ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace"
+VARS_LIGHT = ("--fg:#1f2328;--mute:#59636e;--faint:#818b98;--line:#d1d9e0;--card:#f6f8fa;"
+              "--pk:#c026d3;--gr:#1a7f37")
+VARS_DARK = ("--fg:#e6edf3;--mute:#9198a1;--faint:#6e7681;--line:#30363d;--card:#161b22;"
+             "--pk:#ff88ff;--gr:#3fb950")
 
-# ---- 版式 ----
-CARD_W = 840
-OUTER = 20                 # 卡片外边距
-PANEL_X = OUTER
-PANEL_W = CARD_W - 2 * OUTER
-PANEL_PAD = 16             # .panel padding
-PANEL_R = 12               # .panel border-radius
-HEAD_Y = 34                # 区块标题基线
-PANEL_Y = 56
-INNER_W = PANEL_W - 2 * PANEL_PAD
-SECTION_GAP = 16           # .anime gap
-STATS_H = 56               # 8 + 20*1.2 + 11*1.4 + 8
-STATS_R = 10
-COLS = 6
-COVER_GAP = 12             # .animeCovers gap
-COVER_W = (INNER_W - (COLS - 1) * COVER_GAP) / COLS
-COVER_H = round(COVER_W * 17 / 12)   # aspect-ratio: 12 / 17
-COVER_R = 8
+# ---- 版式: 一行 6 张, 总宽 792 (与 theme.ts 的 W 一致) ----
+CARD_W = 132
+PAD = 4                      # 卡片四周留白, 相邻两张之间就是 8px
+COVER_W = CARD_W - 2 * PAD
+COVER_H = round(COVER_W * 17 / 12)
 NAME_SIZE = 12
-NAME_LH = 16.8             # 12px * 1.4
-META_SIZE = 11
-FOOT_H = 18
+NAME_LH = 16
+CARD_H = PAD + COVER_H + 8 + 2 * NAME_LH + 18 + 14
 
-DECOR_RE = re.compile(
-    "["
-    "\U0001F000-\U0001FAFF"   # emoji / 符号扩展
-    "\u2600-\u27BF"           # 杂项符号与装饰 (含 ☆ ★ ♪)
-    "\u2B00-\u2BFF"           # 杂项符号与箭头 (含 ⭐)
-    "\uFE0E\uFE0F\u200D"      # 变体选择符 / 零宽连接
-    "]"
-)
-
-_MIN_DT = datetime.min.replace(tzinfo=timezone.utc)
-
-
-def parse_last_update(s: str) -> datetime:
-    """user_status.last_update 是 ISO 8601, 例 '2026-11-01T17:47:44+08:00'."""
-    try:
-        dt = datetime.fromisoformat(s.strip())
-    except (ValueError, AttributeError):
-        return _MIN_DT
-    if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
-    return dt
+DECOR_RE = re.compile("[\U0001F000-\U0001FAFF\u2600-\u27BF\u2B00-\u2BFF\uFE0E\uFE0F\u200D]")
 
 
 def clean(text: str) -> str:
-    """去掉 emoji / 装饰符号, 夹在字之间的换成空格, 再合并空白."""
-    text = DECOR_RE.sub(" ", str(text))
-    return re.sub(r"\s+", " ", text).strip()
+    """去掉 emoji / 装饰符号, 再合并空白."""
+    return re.sub(r"\s+", " ", DECOR_RE.sub(" ", str(text))).strip()
 
 
 def char_w(c: str) -> float:
-    return 1.0 if ord(c) > 0x2E80 else 0.6
+    return 1.0 if ord(c) > 0x2E80 else 0.58
 
 
 def wrap_title(text: str, max_units: float, lines: int = 2) -> list[str]:
@@ -136,9 +98,9 @@ def cover_data_uri(img: Path) -> str | None:
         from PIL import Image
 
         im = Image.open(io.BytesIO(raw)).convert("RGB")
-        im.thumbnail((int(COVER_W * 2), COVER_H * 2))
+        im.thumbnail((COVER_W * 2, COVER_H * 2))
         buf = io.BytesIO()
-        im.save(buf, "JPEG", quality=82, optimize=True)
+        im.save(buf, "JPEG", quality=80, optimize=True)
         if buf.tell() < len(raw):
             raw = buf.getvalue()
     except Exception:
@@ -146,165 +108,157 @@ def cover_data_uri(img: Path) -> str | None:
     return "data:image/jpeg;base64," + base64.b64encode(raw).decode()
 
 
-def sort_key(r: dict) -> tuple:
-    """在看的排序键: (有进度, anime_data.date 放送日期, id), 倒序.
-
-    不用 user_status.last_update: 2026-11-06 的标签回填把 187 部的 last_update 刷成同一天
-    (只改了 tags, 进度/状态没动), 它已不代表"最近更新进度". 放送日期只来自番剧本身, 不受标签与爬虫
-    时间影响; 在看列表里放送越新的越是正在逐周追的. 同日放送用 id 定序, 保证不同快照结果一致.
-    """
-    a, u = r.get("anime_data", {}), r.get("user_status", {})
-    has_progress = int(u.get("watched_eps") or 0) > 0
-    return (has_progress, str(a.get("date") or ""), int(a.get("id") or 0))
+def parse_at(s: str) -> datetime | None:
+    try:
+        dt = datetime.fromisoformat(str(s).strip())
+    except ValueError:
+        return None
+    return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
 
 
-def pick_watching(records: list[dict], limit: int) -> list[dict]:
-    """在看, 按 sort_key 倒序: 先有进度的, 再按放送日期 (anime_data.date) 从新到旧."""
-    watching = [r for r in records if r.get("user_status", {}).get("watch_status") == WATCHING]
-    watching.sort(key=sort_key, reverse=True)
-    return watching[:limit]
+def aired_eps(a: dict, today: str) -> int:
+    return sum(1 for ep in a.get("episodes") or [] if ep.get("type") == 0 and ep.get("air_date") and ep["air_date"] <= today)
 
 
-def display_name(a: dict) -> str:
-    return clean(a.get("name_cn") or a.get("name") or str(a.get("id")))
-
-
-def progress(a: dict, u: dict) -> str:
-    total = a.get("eps") or a.get("total_episodes")
-    watched = int(u.get("watched_eps") or 0)
-    s = f"{watched} / {total} 话" if total else f"看到第 {watched} 话"
-    score = a.get("score")
-    return f"{s} · {score}" if score else s
-
-
-def render(records: list[dict], data_dir: Path, limit: int) -> str:
-    counts: dict[int, int] = {}
+def pick_recent(records: list[dict], limit: int, today: str) -> list[dict]:
+    """候选 = 在看 / 看过 / 搁置, 按 last_update 倒序前 limit 部 (与 recent.ts 的 pickRecent 一致)."""
+    out = []
     for r in records:
-        st = r.get("user_status", {}).get("watch_status")
-        counts[st] = counts.get(st, 0) + 1
+        a, u = r.get("anime_data", {}), r.get("user_status", {})
+        st = u.get("watch_status")
+        at = parse_at(u.get("last_update") or "")
+        if st not in PHASE or at is None:
+            continue
+        total = a.get("eps") or a.get("total_episodes") or 0
+        aired = aired_eps(a, today)
+        watched = int(u.get("watched_eps") or 0)
+        behind = max(0, aired - watched) if st == WATCHING else 0
+        out.append({"r": r, "st": st, "at": at, "total": total, "aired": aired, "watched": watched, "behind": behind})
+    out.sort(key=lambda x: (x["at"], int(x["r"]["anime_data"].get("id") or 0)), reverse=True)
+    return out[:limit]
 
-    shown = pick_watching(records, limit)
 
-    stats_y = PANEL_PAD
-    covers_y = stats_y + STATS_H + SECTION_GAP
-    name_y = covers_y + COVER_H + 4
-    meta_y = name_y + 2 * NAME_LH + 4
-    covers_h = (meta_y + 14) - covers_y
-    foot_y = covers_y + covers_h + SECTION_GAP
-    panel_h = foot_y + FOOT_H + PANEL_PAD
-    panel_h = round(panel_h)
-    height = PANEL_Y + panel_h + OUTER
+def ago(at: datetime, now: datetime) -> str:
+    day = (now - at).days
+    if day <= 0:
+        return "今天"
+    if day == 1:
+        return "昨天"
+    if day < 30:
+        return f"{day} 天前"
+    if day < 365:
+        return f"{day // 30} 个月前"
+    return f"{at.year}.{at.month}"
 
+
+def render_card(it: dict, i: int, data_dir: Path, now: datetime) -> str:
+    a = it["r"]["anime_data"]
+    key, label, color = PHASE[it["st"]]
+    name = clean(a.get("name_cn") or a.get("name") or a.get("id"))
+    prog = f"{it['watched']} / {it['total']} 话" if it["total"] else f"看到第 {it['watched']} 话"
+    meta = f"{prog} · {ago(it['at'], now)}"
+    if it["st"] == WATCHED:
+        ratio = 1.0
+    else:
+        base = it["total"] or it["aired"]
+        ratio = min(1.0, it["watched"] / base) if base else 0.0
+    uri = cover_data_uri(data_dir / "anime" / f"{a.get('id')}.jpg")
+    d = i * 0.08
+
+    css = (
+        f"svg{{{VARS_LIGHT}}}@media (prefers-color-scheme:dark){{svg{{{VARS_DARK}}}}}"
+        f"text{{font-family:{SANS};fill:var(--fg)}}.mono{{font-family:{MONO}}}.mute{{fill:var(--mute)}}"
+        ".in{opacity:0;animation:in .6s cubic-bezier(.2,.8,.2,1) forwards}"
+        ".cv{transition:none;animation:zoom 1.2s cubic-bezier(.2,.8,.2,1) forwards;transform-box:fill-box;transform-origin:center}"
+        ".bar{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:grow 1.1s cubic-bezier(.2,.8,.2,1) forwards}"
+        ".dot{transform-box:fill-box;transform-origin:center;animation:pulse 1.8s ease-in-out infinite}"
+        "@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}"
+        "@keyframes zoom{from{transform:scale(1.08)}to{transform:scale(1)}}"
+        f"@keyframes grow{{to{{transform:scaleX({ratio:.3f})}}}}"
+        "@keyframes pulse{50%{opacity:.3}}"
+        "@media (prefers-reduced-motion:reduce){*{animation:none!important}.in{opacity:1}"
+        f".bar{{transform:scaleX({ratio:.3f})}}}}"
+    )
     o: list[str] = []
     o.append(
-        f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
-        f'width="{CARD_W}" height="{height}" viewBox="0 0 {CARD_W} {height}" role="img" aria-label="在追的番">'
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{CARD_W}" height="{CARD_H}" viewBox="0 0 {CARD_W} {CARD_H}" '
+        f'role="img" aria-label="{escape(name)}">'
     )
-    o.append("<style>")
-    o.append(f".h{{font:600 20px {SANS};fill:{TEXT};letter-spacing:-0.2px}}")
-    o.append(f".d{{font:400 13px {SANS};fill:{FAINT}}}")
-    o.append(f".v{{font:600 20px {MONO};fill:{TEXT}}}")
-    o.append(f".vp{{font:600 20px {MONO};fill:{PRIMARY}}}")
-    o.append(f".l{{font:400 11px {SANS};fill:{FAINT}}}")
-    o.append(f".n{{font:400 {NAME_SIZE}px {SANS};fill:{TEXT}}}")
-    o.append(f".m{{font:400 {META_SIZE}px {MONO};fill:{FAINT}}}")
-    o.append(f".a{{font:400 13px {SANS};fill:{PRIMARY}}}")
-    o.append("</style>")
-    o.append("<defs>")
-    o.append(f'<clipPath id="st"><rect width="{INNER_W}" height="{STATS_H}" rx="{STATS_R}"/></clipPath>')
-    o.append(f'<clipPath id="cv"><rect width="{COVER_W:.2f}" height="{COVER_H}" rx="{COVER_R}"/></clipPath>')
-    o.append("</defs>")
-
-    # 背景 (页面底色) + 区块标题
-    o.append(f'<rect width="{CARD_W}" height="{height}" rx="{PANEL_R}" fill="{BG}"/>')
-    o.append(f'<text class="h" x="{OUTER}" y="{HEAD_Y}">在追的番</text>')
-    o.append(
-        f'<text class="d" x="{CARD_W - OUTER}" y="{HEAD_Y}" text-anchor="end">'
-        f"BanGuMi 追番记录, 封面是在看里放送最新的几部</text>"
-    )
-
-    # 面板
-    o.append(f'<g transform="translate({PANEL_X},{PANEL_Y})">')
-    o.append(
-        f'<rect x="0.5" y="0.5" width="{PANEL_W - 1}" height="{panel_h - 1}" rx="{PANEL_R}" '
-        f'fill="{SURFACE}" fill-opacity="{SURFACE_OP}" stroke="{LINE}"/>'
-    )
-
-    # 计数行
-    cells = [("记录", len(records))] + [(label, counts.get(st, 0)) for st, label in STATUS_ORDER]
-    cell_w = INNER_W / len(cells)
-    o.append(f'<g transform="translate({PANEL_PAD},{stats_y})">')
-    o.append(f'<g clip-path="url(#st)"><rect width="{INNER_W}" height="{STATS_H}" fill="{BG}"/>')
-    for i in range(1, len(cells)):
-        o.append(f'<rect x="{i * cell_w - 0.5:.2f}" width="1" height="{STATS_H}" fill="{LINE}"/>')
-    o.append("</g>")
-    o.append(
-        f'<rect x="0.5" y="0.5" width="{INNER_W - 1}" height="{STATS_H - 1}" rx="{STATS_R}" '
-        f'fill="none" stroke="{LINE}"/>'
-    )
-    for i, (label, n) in enumerate(cells):
-        cx = i * cell_w + 12
-        o.append(f'<text class="{"vp" if i == 0 else "v"}" x="{cx:.2f}" y="30">{n}</text>')
-        o.append(f'<text class="l" x="{cx:.2f}" y="46">{label}</text>')
-    o.append("</g>")
-
-    # 封面
-    for i, r in enumerate(shown):
-        a, u = r["anime_data"], r["user_status"]
-        x = PANEL_PAD + i * (COVER_W + COVER_GAP)
-        name = display_name(a)
-        meta = progress(a, u)
-        uri = cover_data_uri(data_dir / "anime" / f"{a.get('id')}.jpg")
-        o.append(f'<g transform="translate({x:.2f},{covers_y})">')
-        o.append(f"<title>{escape(name)} ({escape(meta)})</title>")
+    o.append(f"<title>{escape(name)} ({escape(label)} {escape(prog)})</title><style>{css}</style>")
+    o.append(f'<defs><clipPath id="c"><rect x="{PAD}" y="{PAD}" width="{COVER_W}" height="{COVER_H}" rx="10"/></clipPath></defs>')
+    o.append(f'<g class="in" style="animation-delay:{d:.2f}s">')
+    o.append(f'<rect x="{PAD}" y="{PAD}" width="{COVER_W}" height="{COVER_H}" rx="10" fill="var(--card)"/>')
+    if uri:
         o.append(
-            f'<rect width="{COVER_W:.2f}" height="{COVER_H}" rx="{COVER_R}" '
-            f'fill="#ffffff" fill-opacity="{PLACEHOLDER_OP}"/>'
+            f'<g clip-path="url(#c)"><image class="cv" x="{PAD}" y="{PAD}" width="{COVER_W}" height="{COVER_H}" '
+            f'preserveAspectRatio="xMidYMid slice" href="{uri}" style="animation-delay:{d:.2f}s"/></g>'
         )
-        if uri:
-            o.append(
-                f'<image clip-path="url(#cv)" width="{COVER_W:.2f}" height="{COVER_H}" '
-                f'preserveAspectRatio="xMidYMid slice" href="{uri}" xlink:href="{uri}"/>'
-            )
-        o.append(
-            f'<rect x="0.5" y="0.5" width="{COVER_W - 1:.2f}" height="{COVER_H - 1}" rx="{COVER_R}" '
-            f'fill="none" stroke="{LINE}"/>'
-        )
-        for j, line in enumerate(wrap_title(name, COVER_W / NAME_SIZE)):
-            o.append(f'<text class="n" x="0" y="{name_y - covers_y + 12 + j * NAME_LH:.1f}">{escape(line)}</text>')
-        o.append(f'<text class="m" x="0" y="{meta_y - covers_y + 11:.1f}">{escape(meta)}</text>')
-        o.append("</g>")
+    o.append(f'<rect x="{PAD + .5}" y="{PAD + .5}" width="{COVER_W - 1}" height="{COVER_H - 1}" rx="10" fill="none" stroke="var(--line)"/>')
+    # 阶段角标: 半透明黑底 + 状态色圆点
+    bw = 14 + 12 * len(label) + 8
+    o.append(f'<rect x="{PAD + 6}" y="{PAD + 6}" width="{bw}" height="18" rx="9" fill="#000" fill-opacity=".58"/>')
+    dot_cls = ' class="dot"' if key == "watching" else ""
+    o.append(f'<circle{dot_cls} cx="{PAD + 15}" cy="{PAD + 15}" r="3.2" fill="{color}"/>')
+    o.append(f'<text x="{PAD + 22}" y="{PAD + 19}" font-size="11" style="fill:#fff">{escape(label)}</text>')
+    # 底部进度条
+    by = PAD + COVER_H - 10
+    o.append(f'<rect x="{PAD + 6}" y="{by}" width="{COVER_W - 12}" height="4" rx="2" fill="#000" fill-opacity=".45"/>')
+    o.append(f'<rect class="bar" x="{PAD + 6}" y="{by}" width="{COVER_W - 12}" height="4" rx="2" fill="{color}" style="animation-delay:{d + .35:.2f}s"/>')
+    # 番名 (两行) + 进度 · 时间 (+ 更新到第 N 话)
+    ty = PAD + COVER_H + 8 + 12
+    for j, line in enumerate(wrap_title(name, COVER_W / NAME_SIZE)):
+        o.append(f'<text x="{PAD}" y="{ty + j * NAME_LH}" font-size="{NAME_SIZE}">{escape(line)}</text>')
+    my = ty + 2 * NAME_LH + 2
+    o.append(f'<text class="mono mute" x="{PAD}" y="{my}" font-size="10.5">{escape(meta)}</text>')
+    if it["behind"]:
+        o.append(f'<text x="{PAD}" y="{my + 14}" font-size="10.5" style="fill:var(--pk)">更新到第 {it["aired"]} 话</text>')
+    o.append("</g></svg>")
+    return "".join(o)
 
-    # 页脚
-    o.append(f'<text class="l" x="{PANEL_PAD}" y="{foot_y + 13}">From HXLoLi-ANiMe</text>')
-    o.append(f'<text class="a" x="{PANEL_W - PANEL_PAD}" y="{foot_y + 13}" text-anchor="end">全部追番</text>')
-    o.append("</g>")
-    o.append("</svg>")
-    return "\n".join(o)
+
+def load_records(data_dir: Path) -> list[dict] | None:
+    for name in ("ANiMeIndex.json", "ANiMeRecord.json"):
+        p = data_dir / name
+        if p.is_file():
+            with p.open(encoding="utf-8") as f:
+                return json.load(f)
+    return None
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--data", default=os.environ.get("ANIME_DATA_DIR") or str(ROOT / ".anime-data" / "data"))
-    ap.add_argument("--out", default=str(ROOT / "img" / "cards" / "anime.svg"))
+    ap.add_argument("--out", default=str(ROOT / "img" / "cards" / "anime"))
     ap.add_argument("--limit", type=int, default=6)
     args = ap.parse_args()
 
     data_dir = Path(args.data)
-    rec_path = data_dir / "ANiMeRecord.json"
-    if not rec_path.is_file():
-        print(f"[anime_card] 找不到 {rec_path}, 跳过生成", file=sys.stderr)
+    records = load_records(data_dir)
+    if records is None:
+        print(f"[anime_card] {data_dir} 下没有 ANiMeIndex.json / ANiMeRecord.json, 保留旧卡片", file=sys.stderr)
         return 1
-    with rec_path.open(encoding="utf-8") as f:
-        records = json.load(f)
 
-    svg = render(records, data_dir, args.limit)
+    now = datetime.now(timezone.utc)
+    shown = pick_recent(records, args.limit, date.today().isoformat())
     out = Path(args.out)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(svg, encoding="utf-8")
-    for r in pick_watching(records, args.limit):
-        print(f"  {r['anime_data'].get('date')}  {display_name(r['anime_data'])}")
-    print(f"[anime_card] 已生成 {out} ({out.stat().st_size // 1024} KiB)")
+    out.mkdir(parents=True, exist_ok=True)
+    for old in out.glob("*.svg"):
+        old.unlink()
+
+    counts: dict[int, int] = {}
+    for r in records:
+        st = r.get("user_status", {}).get("watch_status")
+        counts[st] = counts.get(st, 0) + 1
+    items = []
+    for i, it in enumerate(shown):
+        a = it["r"]["anime_data"]
+        file = f"{i}.svg"
+        (out / file).write_text(render_card(it, i, data_dir, now), encoding="utf-8")
+        items.append({"id": a.get("id"), "file": file, "name": clean(a.get("name_cn") or a.get("name") or a.get("id"))})
+        print(f"  {it['at']:%Y-%m-%d}  {PHASE[it['st']][1]}  {items[-1]['name']}")
+    index = {"counts": " / ".join(f"{label} {counts.get(st, 0)}" for st, label in COUNT_ORDER), "items": items}
+    (out / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"[anime_card] 已生成 {len(items)} 张 -> {out}")
     return 0
 
 

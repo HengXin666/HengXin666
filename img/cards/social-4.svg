@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="138" height="30" viewBox="0 0 138 30" role="img" aria-label="QQ 282000500"><title>QQ 282000500</title><style>
+svg{--fg:#1f2328;--mute:#59636e;--faint:#818b98;--line:#d1d9e0;--card:#f6f8fa;--card2:#ffffff;--pk:#c026d3;--pu:#8250df;--or:#d1580b;--gr:#1a7f37;--cy:#0969da;--glow:#f0abfc}
+@media (prefers-color-scheme:dark){svg{--fg:#e6edf3;--mute:#9198a1;--faint:#6e7681;--line:#30363d;--card:#161b22;--card2:#0d1117;--pk:#ff88ff;--pu:#bc8cff;--or:#f0883e;--gr:#3fb950;--cy:#58c4ff;--glow:#ff88ff}}
+text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,'PingFang SC','Hiragino Sans','Microsoft YaHei','Noto Sans CJK SC',sans-serif}text:not([fill]){fill:var(--fg)}
+.mono{font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-variant-numeric:tabular-nums}
+text.mute{fill:var(--mute)}text.faint{fill:var(--faint)}
+.card{fill:var(--card);stroke:var(--line)}
+.in{opacity:0;animation:in .6s cubic-bezier(.2,.8,.2,1) forwards}
+.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.4s cubic-bezier(.4,0,.2,1) .2s forwards}
+.grow{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:grow 1s cubic-bezier(.2,.8,.2,1) .3s forwards}
+.rise{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2s ease-in-out infinite}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes grow{to{transform:scaleX(1)}}
+@keyframes rise{to{transform:scaleY(1)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.6)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.in{opacity:1}.draw{stroke-dashoffset:0}.grow,.rise{transform:none}}
+.sh{animation:sh 3.2s ease-in-out 1}@keyframes sh{from{transform:translateX(-80px)}to{transform:translateX(218px)}}</style><defs><linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="var(--glow)" stop-opacity="0"/><stop offset=".5" stop-color="var(--glow)" stop-opacity=".25"/><stop offset="1" stop-color="var(--glow)" stop-opacity="0"/></linearGradient><clipPath id="c"><rect x="4.5" y="0.5" width="129" height="29" rx="15"/></clipPath></defs><g class="in" style="animation-delay:0.24s"><rect class="card" x="4.5" y="0.5" width="129" height="29" rx="15"/><g clip-path="url(#c)"><rect class="sh" x="-60" y="0" width="60" height="30" fill="url(#s)" style="animation-delay:1.20s"/></g><path transform="translate(16 8) scale(0.5833333333333334)" d="M21.395 15.035a40 40 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a39 39 0 0 0-.802 2.264c-1.021 3.283-.69 4.643-.438 4.673.54.065 2.103-2.472 2.103-2.472 0 1.469.756 3.387 2.394 4.771-.612.188-1.363.479-1.845.835-.434.32-.379.646-.301.778.343.578 5.883.369 7.482.189 1.6.18 7.14.389 7.483-.189.078-.132.132-.458-.301-.778-.483-.356-1.233-.646-1.846-.836 1.637-1.384 2.393-3.302 2.393-4.771 0 0 1.563 2.537 2.103 2.472.251-.03.581-1.39-.438-4.673" fill="#12b7f5" /><text x="36" y="19.5" font-size="13" font-weight="500">QQ</text><text class="mono mute" x="59.08" y="19.5" font-size="12">282000500</text></g></svg>

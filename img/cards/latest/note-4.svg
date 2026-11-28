@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="396" height="38" viewBox="0 0 396 38" role="img" aria-label="进程简介及进程编程模型"><title>进程简介及进程编程模型</title><style>
+svg{--fg:#1f2328;--mute:#59636e;--faint:#818b98;--line:#d1d9e0;--card:#f6f8fa;--card2:#ffffff;--pk:#c026d3;--pu:#8250df;--or:#d1580b;--gr:#1a7f37;--cy:#0969da;--glow:#f0abfc}
+@media (prefers-color-scheme:dark){svg{--fg:#e6edf3;--mute:#9198a1;--faint:#6e7681;--line:#30363d;--card:#161b22;--card2:#0d1117;--pk:#ff88ff;--pu:#bc8cff;--or:#f0883e;--gr:#3fb950;--cy:#58c4ff;--glow:#ff88ff}}
+text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,'PingFang SC','Hiragino Sans','Microsoft YaHei','Noto Sans CJK SC',sans-serif}text:not([fill]){fill:var(--fg)}
+.mono{font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-variant-numeric:tabular-nums}
+text.mute{fill:var(--mute)}text.faint{fill:var(--faint)}
+.card{fill:var(--card);stroke:var(--line)}
+.in{opacity:0;animation:in .6s cubic-bezier(.2,.8,.2,1) forwards}
+.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.4s cubic-bezier(.4,0,.2,1) .2s forwards}
+.grow{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:grow 1s cubic-bezier(.2,.8,.2,1) .3s forwards}
+.rise{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2s ease-in-out infinite}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes grow{to{transform:scaleX(1)}}
+@keyframes rise{to{transform:scaleY(1)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.6)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.in{opacity:1}.draw{stroke-dashoffset:0}.grow,.rise{transform:none}}
+</style><g class="in" style="animation-delay:0.27s"><rect class="card" x="4.5" y="3.5" width="387" height="31" rx="9"/><rect class="rise" x="4.5" y="9" width="3" height="20" rx="1.5" fill="var(--cy)" style="animation-delay:0.44s"/><g transform="translate(16 12) scale(0.5833333333333334)" fill="none" stroke="var(--cy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"/><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/></g><text x="38" y="24" font-size="13">进程简介及进程编程模型</text><rect x="256.2" y="11" width="52" height="16" rx="8" fill="var(--cy)" fill-opacity=".12"/><text x="282.2" y="22.5" font-size="10" fill="var(--cy)" text-anchor="middle">计佬常識</text><text class="mono faint" x="382" y="23.5" font-size="11" text-anchor="end">2026-10-08</text></g></svg>
