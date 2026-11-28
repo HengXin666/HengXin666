@@ -50,6 +50,31 @@ query($login: String!, $yearFrom: DateTime!, $recentFrom: DateTime!, $to: DateTi
   }
 }`;
 
+// 连续天数要看全部历史: contributionsCollection 一次最多一年, 按年往回拉日历 (每年一次请求, 只取日历)
+const CAL_QUERY = `
+query($login: String!, $from: DateTime!, $to: DateTime!) {
+  user(login: $login) {
+    createdAt
+    contributionsCollection(from: $from, to: $to) {
+      contributionCalendar { weeks { contributionDays { date contributionCount } } }
+    }
+  }
+}`;
+
+async function fullCalendar(token: string, now: Date): Promise<{ date: string; count: number }[]> {
+  const days = new Map<string, number>();
+  let to = now;
+  for (let k = 0; k < 25; k++) {
+    const from = new Date(to.getTime() - 365 * 86_400_000);
+    const d: any = await gql(token, CAL_QUERY, { login: LOGIN, from: from.toISOString(), to: to.toISOString() });
+    for (const w of d.user.contributionsCollection.contributionCalendar.weeks)
+      for (const c of w.contributionDays) days.set(c.date, c.contributionCount);
+    if (from.getTime() <= Date.parse(d.user.createdAt)) break;
+    to = from;
+  }
+  return [...days.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([date, count]) => ({ date, count }));
+}
+
 // PR / Issue / 评审 一个月能超过 100 条, 单独分页
 const PAGED_QUERY = (field: string) => `
 query($login: String!, $recentFrom: DateTime!, $to: DateTime!, $after: String) {
@@ -118,11 +143,12 @@ async function main() {
   const recentFrom = new Date(now.getTime() - (RECENT_DAYS + 1) * 86_400_000).toISOString();
   const vars = { login: LOGIN, recentFrom, to };
 
-  const [main, prs, issues, reviews] = await Promise.all([
+  const [main, prs, issues, reviews, history] = await Promise.all([
     gql<any>(token, MAIN_QUERY, { ...vars, yearFrom }),
     paged(token, "pullRequestContributions", vars),
     paged(token, "issueContributions", vars),
     paged(token, "pullRequestReviewContributions", vars),
+    fullCalendar(token, now),
   ]);
   const u = main.user;
 
@@ -178,7 +204,7 @@ async function main() {
       reviews: u.year.totalPullRequestReviewContributions,
       private: u.year.restrictedContributionsCount,
     },
-    streak: streaks(calendar),
+    streak: streaks(history),
     calendar,
     recent: dates.map((date) => ({ date, ...byDay.get(date)! })),
     languages: [...langs.values()].sort((a, b) => b.size - a.size).slice(0, 12),
