@@ -203,6 +203,8 @@ export function trendChart(points: TrendPoint[], hours: number[], streak: { curr
 
   const bars = series.filter((s) => s.style === "bars");
   const bw = 6;
+  // 同一天两根柱都有数时, 数字各自往外贴, 左柱右对齐、右柱左对齐, 免得叠在一起
+  const both = (i: number) => bars.length > 1 && bars.every((s) => s.values[i] > 0);
   bars.forEach((s, b) => {
     const id = `tgb${b}`;
     defs += `<linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${s.color}"/><stop offset="1" stop-color="${s.color}" stop-opacity=".35"/></linearGradient>`;
@@ -211,7 +213,10 @@ export function trendChart(points: TrendPoint[], hours: number[], streak: { curr
       const bx = x(i) - bw - 1 + b * (bw + 2);
       const top = yl(v);
       plot += `<rect class="rise" x="${bx.toFixed(1)}" y="${top.toFixed(1)}" width="${bw}" height="${(base - top).toFixed(1)}" rx="3" fill="url(#${id})" ${delay(0.6 + i * 0.04 + b * 0.08)}/>`;
-      plot += `<text class="mono in" x="${(bx + bw / 2).toFixed(1)}" y="${(top - 4).toFixed(1)}" font-size="8.5" font-weight="600" text-anchor="middle" fill="${s.color}" ${delay(1.2 + i * 0.04)}>${v}</text>`;
+      const pair = both(i);
+      const tx = pair ? (b === 0 ? bx + bw - 0.5 : bx + 0.5) : bx + bw / 2;
+      const anchor = pair ? (b === 0 ? "end" : "start") : "middle";
+      plot += `<text class="mono in" x="${tx.toFixed(1)}" y="${(top - 4).toFixed(1)}" font-size="8.5" font-weight="600" text-anchor="${anchor}" fill="${s.color}" ${delay(1.2 + i * 0.04)}>${v}</text>`;
       placed.push([bx + bw / 2, top - 7]);
     });
   });
