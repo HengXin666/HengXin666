@@ -274,3 +274,39 @@ export function latestRow(opt: { kind: "blog" | "note"; idx: number; title: stri
     `</g>`;
   return svg(w, H, opt.title, body);
 }
+
+// ---------------------------------------------------------------- 语言占比
+
+/**
+ * 语言占比: 一条按字节比例分段的横条 (各段依次长出), 下方前 4 名的名字与百分比.
+ * 整张图一个链接 (仓库列表); 每种语言单独可点的入口是下面那排胶囊.
+ */
+export function langBar(langs: { name: string; color: string; size: number }[], repos: number): string {
+  const H = 76;
+  const total = langs.reduce((s, l) => s + l.size, 0) || 1;
+  const x0 = 16;
+  const bw = W - 32;
+  let x = x0;
+  let segs = "";
+  langs.forEach((l, i) => {
+    const w = (l.size / total) * bw;
+    if (w < 0.5) return;
+    segs += `<rect class="grow" x="${x.toFixed(1)}" y="38" width="${Math.max(0.5, w - 1.5).toFixed(1)}" height="12" fill="${l.color}" ${delay(0.15 + i * 0.09)}><title>${esc(l.name)} ${((l.size / total) * 100).toFixed(1)}%</title></rect>`;
+    x += w;
+  });
+  const top = langs
+    .slice(0, 4)
+    .map((l) => `${l.name} ${((l.size / total) * 100).toFixed(0)}%`)
+    .join(" / ");
+  const body =
+    `<defs><clipPath id="b"><rect x="${x0}" y="38" width="${bw}" height="12" rx="6"/></clipPath></defs>` +
+    `<rect class="card" x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="14"/>` +
+    icon("code", 16, 11, 15, "var(--pk)") +
+    `<text x="38" y="23" font-size="14" font-weight="600">语言占比</text>` +
+    `<text class="faint" x="${38 + textWidth("语言占比", 14) + 8}" y="23" font-size="11">${repos} 个自有仓库, 按代码字节</text>` +
+    `<text class="mute" x="${W - 16}" y="23" font-size="12" text-anchor="end">${esc(top)}</text>` +
+    `<rect x="${x0}" y="38" width="${bw}" height="12" rx="6" fill="var(--line)" opacity=".5"/>` +
+    `<g clip-path="url(#b)">${segs}</g>` +
+    `<text class="faint" x="${x0}" y="66" font-size="10">点下方语言看对应仓库</text>`;
+  return svg(W, H, "语言占比", body);
+}

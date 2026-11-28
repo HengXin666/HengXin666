@@ -11,7 +11,7 @@
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "fs";
 import { join } from "path";
-import { activityChart, hero, latestRow, pill, sectionHead, tile, type Day } from "./cards.js";
+import { activityChart, hero, langBar, latestRow, pill, sectionHead, tile, type Day } from "./cards.js";
 import { HERO_LINES, LINKS, RECENT_DAYS, SKILLS } from "./config.js";
 import { fmt, W } from "./theme.js";
 
@@ -112,6 +112,7 @@ export function renderProfile(blog: LatestItem[], docs: LatestItem[], updatedAt:
 
     // 语言: 每个一枚胶囊, 点进去是按该语言筛选的仓库列表
     const total = gh.languages.reduce((s: number, l: any) => s + l.size, 0) || 1;
+    parts.push(`<p>${link(LINKS.stars.replace("&sort=stargazers", ""), write("langs.svg", langBar(gh.languages, gh.repos)), "语言占比", W)}</p>`);
     parts.push(
       `<p>${gh.languages
         .slice(0, 8)
