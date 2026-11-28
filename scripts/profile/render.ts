@@ -2,6 +2,7 @@
 //
 // 输入 (都是仓库内文件, 渲染不联网):
 //   data/github.json        fetchGithub.ts 拉的 GitHub 统计
+//   data/aioa*.json         fetchAioa.ts 拉的 AIOA 按天统计与近 14 天走势 (可选)
 //   data/history.json       py/wakatime_req.py 拉的 WakaTime 每日时长
 //   img/cards/anime/index.json  py/anime_card.py 生成的「最近在看」封面清单
 //   img/misaka03.jpg        头像
@@ -11,6 +12,7 @@
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, unlinkSync, writeFileSync } from "fs";
 import { join } from "path";
+import { trendChart, type TrendPoint } from "./trendChart.js";
 import { activityChart, hero, langBar, langCell, latestRow, pill, sectionHead, tile, type Day } from "./cards.js";
 import { HERO_LINES, LINKS, RECENT_DAYS, SKILLS } from "./config.js";
 import { fmt, W } from "./theme.js";
@@ -121,7 +123,14 @@ export function renderProfile(blog: LatestItem[], docs: LatestItem[], updatedAt:
         .map((t, i) => link(t.href, write(`tile-${i}.svg`, tile({ ...t, spark: t.spark.length ? t.spark : Array(RECENT_DAYS).fill(0), i })), `${t.label} ${t.value}`, W / 6))
         .join("")}</p>`,
     );
-    parts.push(`<p>${link(LINKS.profile, write("activity.svg", activityChart(recent, gh.streak, gh.scope)), "近 30 天 GitHub 动态", W)}</p>`);
+    // 有 AIOA 走势 (近两天内拉到的) 就画走势合一图, 编码时长按同样的日期并进去; 否则退回原来的 30 天折线
+    const tr = readJson<{ fetchedAt: string; backfill?: { done?: boolean }; days?: { points?: TrendPoint[] } } | null>("data/aioa-trend.json", null);
+    const pts = tr && Date.now() - Date.parse(tr.fetchedAt) < 2 * 86_400_000 ? tr.days?.points ?? [] : [];
+    const chart = pts.length
+      ? trendChart(pts, pts.map((p) => waka.get(p.label) ?? 0), gh.streak, tr?.backfill?.done ?? true)
+      : activityChart(recent, gh.streak, gh.scope);
+    const alt = pts.length ? `近 ${pts.length} 天 GitHub 走势` : "近 30 天 GitHub 动态";
+    parts.push(`<p>${link(LINKS.profile, write("activity.svg", chart), alt, W)}</p>`);
 
     // 语言: 每个一枚胶囊, 点进去是按该语言筛选的仓库列表
     const total = gh.languages.reduce((s: number, l: any) => s + l.size, 0) || 1;
