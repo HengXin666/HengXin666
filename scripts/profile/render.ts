@@ -9,15 +9,17 @@
 //
 // 每个可点元素是一张独立 SVG, README 里各自用 <a> 包住; 同一行的图之间不留空白字符, 间距画在 SVG 里.
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, unlinkSync, writeFileSync } from "fs";
 import { join } from "path";
-import { activityChart, hero, langBar, latestRow, pill, sectionHead, tile, type Day } from "./cards.js";
+import { activityChart, hero, langBar, langCell, latestRow, pill, sectionHead, tile, type Day } from "./cards.js";
 import { HERO_LINES, LINKS, RECENT_DAYS, SKILLS } from "./config.js";
 import { fmt, W } from "./theme.js";
 
 export type LatestItem = { title: string; link: string; date: string };
 
 const OUT = join("img", "cards");
+// 访问计数只能用实时服务; 放在页脚, 灰色小号, 不抢视觉. extraCount 补回旧 komarev 计数 (约 5000)
+const VIEWS = "https://hits.sh/github.com/HengXin666.svg?label=views&extraCount=5000&style=flat-square&color=6e7681&labelColor=30363d";
 const rel = (...p: string[]) => "./" + [OUT, ...p].join("/");
 const attr = (s: string) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 
@@ -64,6 +66,7 @@ function docCat(url: string): string | undefined {
 
 export function renderProfile(blog: LatestItem[], docs: LatestItem[], updatedAt: string): string {
   mkdirSync(OUT, { recursive: true });
+  for (const f of readdirSync(OUT)) if (/^lang-\d+\.svg$/.test(f)) unlinkSync(join(OUT, f));
   const gh = readJson<any>("data/github.json", null);
   const waka = wakaDays();
   const parts: string[] = [];
@@ -87,12 +90,22 @@ export function renderProfile(blog: LatestItem[], docs: LatestItem[], updatedAt:
         const src = write(`social-${i}.svg`, p.svg);
         return link(href, src, opt.value ? `${opt.label} ${opt.value}` : opt.label, p.width);
       })
-      .join("")}<img src="https://hits.sh/github.com/HengXin666.svg?label=Profile%20Views&extraCount=5000" height="20" alt="Profile Views"></p>`,
+      .join("")}</p>`,
   );
 
   // ---- GitHub 磁贴 + 聚合折线
   if (gh) {
-    const recent: Day[] = gh.recent.map((d: any) => ({ ...d, hours: waka.get(d.date) ?? 0 }));
+    // 有 AIOA 的数据 (近两天内拉到的) 就用它的提交 / PR / Issue / 评审, 与手机端同源; 否则用 GitHub GraphQL 的
+    const aioa = readJson<any>("data/aioa.json", null);
+    const aioaFresh = aioa && Date.now() - Date.parse(aioa.fetchedAt) < 2 * 86_400_000;
+    const aDay = new Map<string, any>(aioaFresh ? aioa.days.map((d: any) => [d.day, d]) : []);
+    const recent: Day[] = gh.recent.map((d: any) => {
+      const a = aDay.get(d.date);
+      const base = a
+        ? { date: d.date, commits: a.commits, prs: a.prOpened + a.prMerged + a.prClosed, issues: a.issueOpened + a.issueClosed, reviews: a.reviews }
+        : d;
+      return { ...base, hours: waka.get(d.date) ?? 0 };
+    });
     const col = (k: keyof Day) => recent.map((d) => d[k] as number);
     const sum = (k: keyof Day) => col(k).reduce((a, b) => a + b, 0);
     const tiles = [
@@ -113,13 +126,13 @@ export function renderProfile(blog: LatestItem[], docs: LatestItem[], updatedAt:
     // 语言: 每个一枚胶囊, 点进去是按该语言筛选的仓库列表
     const total = gh.languages.reduce((s: number, l: any) => s + l.size, 0) || 1;
     parts.push(`<p>${link(LINKS.stars.replace("&sort=stargazers", ""), write("langs.svg", langBar(gh.languages, gh.repos)), "语言占比", W)}</p>`);
+    // 一行 6 格, 不折行; 第 7 名之后只在上面的分段条里 (悬停可见)
     parts.push(
       `<p>${gh.languages
-        .slice(0, 8)
+        .slice(0, 6)
         .map((l: any, i: number) => {
-          const pct = `${((l.size / total) * 100).toFixed(1)}%`;
-          const p = pill({ dot: l.color, label: l.name, value: pct, i });
-          return link(LINKS.language(l.name), write(`lang-${i}.svg`, p.svg), `${l.name} ${pct}`, p.width);
+          const pct = (l.size / total) * 100;
+          return link(LINKS.language(l.name), write(`lang-${i}.svg`, langCell({ name: l.name, color: l.color, pct, max: (gh.languages[0].size / total) * 100, i })), `${l.name} ${pct.toFixed(1)}%`, W / 6);
         })
         .join("")}</p>`,
     );
@@ -152,7 +165,7 @@ export function renderProfile(blog: LatestItem[], docs: LatestItem[], updatedAt:
   );
 
   parts.push(
-    `<p><sub>更新于 ${updatedAt} (北京时间) · 数据来自 GitHub, WakaTime, <a href="${LINKS.hxloli}">HXLoLi</a> · 每日凌晨更新</sub></p>`,
+    `<p><sub>更新于 ${updatedAt} (北京时间) · 数据来自 GitHub, WakaTime, <a href="${LINKS.hxloli}">HXLoLi</a> · 每日凌晨更新</sub>&nbsp;&nbsp;<img src="${VIEWS}" height="16" alt="访问量"></p>`,
   );
   return parts.join("\n\n");
 }

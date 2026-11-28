@@ -169,11 +169,13 @@ def render_card(it: dict, i: int, data_dir: Path, now: datetime) -> str:
         f"svg{{{VARS_LIGHT}}}@media (prefers-color-scheme:dark){{svg{{{VARS_DARK}}}}}"
         f"text{{font-family:{SANS};fill:var(--fg)}}.mono{{font-family:{MONO}}}.mute{{fill:var(--mute)}}"
         ".in{opacity:0;animation:in .6s cubic-bezier(.2,.8,.2,1) forwards}"
-        ".cv{transition:none;animation:zoom 1.2s cubic-bezier(.2,.8,.2,1) forwards;transform-box:fill-box;transform-origin:center}"
+        ".cv{animation:kb 16s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 30%}"
+        ".gl{animation:gl 5s ease-in-out infinite}"
         ".bar{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:grow 1.1s cubic-bezier(.2,.8,.2,1) forwards}"
         ".dot{transform-box:fill-box;transform-origin:center;animation:pulse 1.8s ease-in-out infinite}"
         "@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}"
-        "@keyframes zoom{from{transform:scale(1.08)}to{transform:scale(1)}}"
+        "@keyframes kb{from{transform:scale(1)}to{transform:scale(1.09) translateY(-3px)}}"
+        f"@keyframes gl{{0%{{transform:translateX(-30px)}}50%,100%{{transform:translateX({COVER_W:.0f}px)}}}}"
         f"@keyframes grow{{to{{transform:scaleX({ratio:.3f})}}}}"
         "@keyframes pulse{50%{opacity:.3}}"
         "@media (prefers-reduced-motion:reduce){*{animation:none!important}.in{opacity:1}"
@@ -191,7 +193,7 @@ def render_card(it: dict, i: int, data_dir: Path, now: datetime) -> str:
     if uri:
         o.append(
             f'<g clip-path="url(#c)"><image class="cv" x="{PAD}" y="{PAD}" width="{COVER_W}" height="{COVER_H}" '
-            f'preserveAspectRatio="xMidYMid slice" href="{uri}" style="animation-delay:{d:.2f}s"/></g>'
+            f'preserveAspectRatio="xMidYMid slice" href="{uri}" style="animation-delay:-{i * 2.7:.1f}s"/></g>'
         )
     o.append(f'<rect x="{PAD + .5}" y="{PAD + .5}" width="{COVER_W - 1}" height="{COVER_H - 1}" rx="10" fill="none" stroke="var(--line)"/>')
     # 阶段角标: 半透明黑底 + 状态色圆点
@@ -204,6 +206,9 @@ def render_card(it: dict, i: int, data_dir: Path, now: datetime) -> str:
     by = PAD + COVER_H - 10
     o.append(f'<rect x="{PAD + 6}" y="{by}" width="{COVER_W - 12}" height="4" rx="2" fill="#000" fill-opacity=".45"/>')
     o.append(f'<rect class="bar" x="{PAD + 6}" y="{by}" width="{COVER_W - 12}" height="4" rx="2" fill="{color}" style="animation-delay:{d + .35:.2f}s"/>')
+    # 进度条上循环走过的一点高光 (只在已看的那段里)
+    o.append(f'<clipPath id="pb"><rect x="{PAD + 6}" y="{by}" width="{(COVER_W - 12) * ratio:.1f}" height="4" rx="2"/></clipPath>')
+    o.append(f'<g clip-path="url(#pb)"><rect class="gl" x="{PAD + 6}" y="{by}" width="26" height="4" fill="#fff" fill-opacity=".55" style="animation-delay:{1.5 + i * 0.6:.1f}s"/></g>')
     # 番名 (两行) + 进度 · 时间 (+ 更新到第 N 话)
     ty = PAD + COVER_H + 8 + 12
     for j, line in enumerate(wrap_title(name, COVER_W / NAME_SIZE)):

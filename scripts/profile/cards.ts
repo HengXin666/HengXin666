@@ -2,7 +2,7 @@
 // (GitHub 用 <img> 引 SVG 时会剥掉 SVG 内部的 <a>, 一张大图只能有一个链接, 所以拆成多张.)
 
 import { icon } from "./icons.js";
-import { delay, esc, fmt, smoothPath, svg, SERIES, textWidth, truncate, W } from "./theme.js";
+import { delay, esc, fmt, smoothPath, sparkle, svg, sweep, SERIES, textWidth, truncate, W } from "./theme.js";
 
 // ---------------------------------------------------------------- 头图
 
@@ -10,6 +10,34 @@ import { delay, esc, fmt, smoothPath, svg, SERIES, textWidth, truncate, W } from
  * 头图: 左边头像 (渐变光环慢转), 右边名字与轮播歌词 (逐字揭开, 停留后淡出, 九句循环).
  * 高 128, 取代原来 200px 头像 + 打字机两段 (合计约 300px 高).
  */
+/** 头图右半边飘过的弹幕 (循环), 左侧渐隐, 不压到名字与歌词 */
+const DANMAKU = [
+  "co_await", "constexpr", "C++26", "零开销抽象", "RAII", "Linux", "Qt Quick", "模板元编程",
+  "反射", "异步协程", "萝莉", "BanGuMi", "LeetCode", "CMake", "epoll", "io_uring",
+];
+const DM_COLORS = ["var(--pk)", "var(--cy)", "var(--pu)", "var(--gr)", "var(--or)"];
+
+function danmaku(H: number): string {
+  const lanes = [18, 44, 70, 96];
+  let out = "";
+  const perLane = Math.ceil(DANMAKU.length / lanes.length);
+  DANMAKU.forEach((word, i) => {
+    const lane = i % lanes.length;
+    const k = Math.floor(i / lanes.length);
+    const y = lanes[lane];
+    const w = textWidth(word, 12) + 20;
+    const c = DM_COLORS[i % DM_COLORS.length];
+    // 同一条轨道上的弹幕速度相同、按时间均分, 不会互相追尾; 各轨道错开起点
+    const dur = 18 + lane * 2.2;
+    const begin = -((k * dur) / perLane + lane * 1.9);
+    out +=
+      `<g><rect y="${y}" width="${w.toFixed(0)}" height="20" rx="10" fill="${c}" fill-opacity=".12"/>` +
+      `<text x="10" y="${y + 14}" font-size="12" fill="${c}">${esc(word)}</text>` +
+      `<animateTransform attributeName="transform" type="translate" from="${W + 10} 0" to="380 0" dur="${dur}s" begin="${begin.toFixed(1)}s" repeatCount="indefinite"/></g>`;
+  });
+  return `<g mask="url(#dm)" opacity=".85">${out}</g>`;
+}
+
 export function hero(avatar: string, name: string, tagline: string, foot: string, lines: string[]): string {
   const H = 128;
   const per = 5; // 每句 5 秒: 1.6s 揭开, 停 2.6s, 0.8s 淡出
@@ -46,11 +74,15 @@ export function hero(avatar: string, name: string, tagline: string, foot: string
   <radialGradient id="hb" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="var(--glow)" stop-opacity=".22"/><stop offset="1" stop-color="var(--glow)" stop-opacity="0"/></radialGradient>
   <clipPath id="av"><circle cx="64" cy="64" r="46"/></clipPath>
   <clipPath id="card"><rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="16"/></clipPath>
+  <linearGradient id="dmg" gradientUnits="userSpaceOnUse" x1="450" x2="640" y1="0" y2="0"><stop offset="0" stop-color="#000"/><stop offset="1" stop-color="#fff"/></linearGradient>
+  <mask id="dm"><rect width="${W}" height="${H}" fill="url(#dmg)"/></mask>
 </defs>
 <rect class="card" x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="16"/>
 <g clip-path="url(#card)">
   <circle class="blob" cx="${W - 150}" cy="20" r="150" fill="url(#hb)"/>
   <circle class="blob" cx="${W - 330}" cy="140" r="110" fill="url(#hb)" style="animation-duration:12s"/>
+  ${danmaku(H)}
+  ${sparkle(140, 22, 5, "var(--pk)", 3.2, 0)}${sparkle(30, 104, 4, "var(--cy)", 2.6, 1.1)}${sparkle(150, 112, 3.5, "var(--pu)", 3.8, 2)}${sparkle(W - 24, 112, 5, "var(--pk)", 3, 0.6)}${sparkle(W - 60, 18, 3.5, "var(--cy)", 4.2, 1.7)}
 </g>
 <g transform="translate(16 0)">
   <circle class="ring" cx="64" cy="64" r="53" fill="none" stroke="url(#hg)" stroke-width="3" stroke-dasharray="26 10" stroke-linecap="round"/>
@@ -87,18 +119,16 @@ export function pill(opt: { icon?: string; dot?: string; label: string; value?: 
     : opt.dot
       ? `<circle class="pulse" cx="${x0 + 6}" cy="15" r="4" fill="${opt.dot}" ${delay((opt.i ?? 0) * 0.2)}/>`
       : "";
-  const css = `.sh{animation:sh 3.2s ease-in-out 1}@keyframes sh{from{transform:translateX(-80px)}to{transform:translateX(${w + 80}px)}}`;
   const body =
-    `<defs><linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="var(--glow)" stop-opacity="0"/><stop offset=".5" stop-color="var(--glow)" stop-opacity=".25"/><stop offset="1" stop-color="var(--glow)" stop-opacity="0"/></linearGradient>` +
-    `<clipPath id="c"><rect x="4.5" y="0.5" width="${w - 9}" height="${H - 1}" rx="${H / 2}"/></clipPath></defs>` +
+    `<defs><clipPath id="c"><rect x="4.5" y="0.5" width="${w - 9}" height="${H - 1}" rx="${H / 2}"/></clipPath></defs>` +
     `<g class="in" ${delay((opt.i ?? 0) * 0.06)}>` +
     `<rect class="card" x="4.5" y="0.5" width="${w - 9}" height="${H - 1}" rx="${H / 2}"/>` +
-    `<g clip-path="url(#c)"><rect class="sh" x="-60" y="0" width="60" height="${H}" fill="url(#s)" ${delay(0.6 + (opt.i ?? 0) * 0.15)}/></g>` +
+    sweep("sw", w, H, "c", 8, 1 + (opt.i ?? 0) * 0.9) +
     mark +
     `<text x="${x0 + iconW}" y="19.5" font-size="13" font-weight="500">${esc(opt.label)}</text>` +
     (opt.value ? `<text class="mono mute" x="${x0 + iconW + lw + 8}" y="19.5" font-size="12">${esc(opt.value)}</text>` : "") +
     `</g>`;
-  return { svg: svg(w, H, opt.value ? `${opt.label} ${opt.value}` : opt.label, body, css), width: w };
+  return { svg: svg(w, H, opt.value ? `${opt.label} ${opt.value}` : opt.label, body), width: w };
 }
 
 // ---------------------------------------------------------------- 数据磁贴
@@ -113,12 +143,15 @@ export function tile(opt: { icon: string; color: string; value: string; label: s
   const bars = opt.spark
     .map((v, k) => {
       const h = v === 0 ? 1 : Math.max(2, (v / max) * 14);
-      return `<rect class="rise" x="${(16 + k * bw).toFixed(1)}" y="${(base - h).toFixed(1)}" width="${Math.max(1, bw - 1.2).toFixed(1)}" height="${h.toFixed(1)}" rx="1" fill="${opt.color}" opacity="${v === 0 ? 0.25 : 0.85}" ${delay(0.3 + opt.i * 0.06 + k * 0.012)}/>`;
+      const last = k === opt.spark.length - 1 && v > 0;
+      return `${last ? '<g class="breathe">' : ""}<rect class="rise" x="${(16 + k * bw).toFixed(1)}" y="${(base - h).toFixed(1)}" width="${Math.max(1, bw - 1.2).toFixed(1)}" height="${h.toFixed(1)}" rx="1" fill="${opt.color}" opacity="${v === 0 ? 0.25 : 0.85}" ${delay(0.3 + opt.i * 0.06 + k * 0.012)}/>${last ? "</g>" : ""}`;
     })
     .join("");
   const body =
+    `<defs><clipPath id="tc"><rect x="4.5" y="4.5" width="${w - 9}" height="${H - 9}" rx="12"/></clipPath></defs>` +
     `<g class="in" ${delay(opt.i * 0.07)}>` +
     `<rect class="card" x="4.5" y="4.5" width="${w - 9}" height="${H - 9}" rx="12"/>` +
+    sweep("sw", w, H, "tc", 9, 1.2 + opt.i * 1.1, 0.16) +
     icon(opt.icon, 16, 15, 14, opt.color) +
     `<text class="mute" x="36" y="26" font-size="12">${esc(opt.label)}</text>` +
     `<text class="mono" x="16" y="52" font-size="22" font-weight="700">${esc(opt.value)}</text>` +
@@ -137,11 +170,11 @@ export type Day = { date: string; commits: number; prs: number; issues: number; 
  * 提交 / PR / Issue 用左轴 (次数), 编码时长用右轴 (小时, 面积). 线条逐条描出, 最新一天的点呼吸.
  */
 export function activityChart(days: Day[], streak: { current: number; longest: number }, scope = "all"): string {
-  const H = 232;
+  const H = 262;
   const L = 44;
   const R = 44;
   const T = 58;
-  const B = 32;
+  const B = 62; // 底部: 日期刻度 + 一行热力格
   const iw = W - L - R;
   const ih = H - T - B;
   const n = days.length;
@@ -169,9 +202,22 @@ export function activityChart(days: Day[], streak: { current: number; longest: n
   }
   for (let i = 0; i < n; i += 5) {
     const anchor = i === 0 ? "start" : "middle";
-    grid += `<text class="mono faint" x="${x(i)}" y="${H - 12}" font-size="10" text-anchor="${anchor}">${days[i].date.slice(5).replace("-", ".")}</text>`;
+    grid += `<text class="mono faint" x="${x(i)}" y="${T + ih + 16}" font-size="10" text-anchor="${anchor}">${days[i].date.slice(5).replace("-", ".")}</text>`;
   }
-  grid += `<text class="mono faint" x="${x(n - 1)}" y="${H - 12}" font-size="10" text-anchor="end">今天</text>`;
+  grid += `<text class="mono faint" x="${x(n - 1)}" y="${T + ih + 16}" font-size="10" text-anchor="end">今天</text>`;
+  // 热力格 (HX-AIOA 手机端「最近 N 天」的样式): 一天一格, 按当天动态总数分 4 档, 依次亮起, 今天那格描边呼吸
+  const tot = days.map((d) => d.commits + d.prs + d.issues + d.reviews);
+  const tmax = Math.max(1, ...tot);
+  const slot = iw / n;
+  const cw = slot * 0.8;
+  for (let i = 0; i < n; i++) {
+    const lv = tot[i] === 0 ? 0 : 1 + Math.floor((3 * tot[i]) / tmax);
+    const cx = L + i * slot + (slot - cw) / 2;
+    const fill = lv === 0 ? `fill="var(--line)" fill-opacity=".5"` : `fill="var(--pk)" fill-opacity="${(lv / 4).toFixed(2)}"`;
+    grid += `<rect class="in" x="${cx.toFixed(1)}" y="${H - 34}" width="${cw.toFixed(1)}" height="18" rx="4" ${fill} ${delay(0.5 + i * 0.03)}><title>${days[i].date} 动态 ${tot[i]}</title></rect>`;
+  }
+  const lx0 = L + (n - 1) * slot + (slot - cw) / 2;
+  grid += `<rect class="breathe" x="${lx0.toFixed(1)}" y="${H - 34}" width="${cw.toFixed(1)}" height="18" rx="4" fill="none" stroke="var(--fg)" stroke-width="1.5"/>`;
 
   // 编码时长: 面积 + 细线
   const hp = days.map((d, i) => [x(i), yh(d.hours)] as [number, number]);
@@ -183,16 +229,26 @@ export function activityChart(days: Day[], streak: { current: number; longest: n
     ["commits", "提交"],
   ];
   if (days.some((d) => d.reviews > 0)) series.unshift(["reviews", "评审"]);
+  // 沿线跑的光点: 线画完后一直循环, 让图不是静止的
+  const comet = (id: string, c: string, dur: number, begin: number) =>
+    `<g><circle r="7" fill="${c}" opacity=".22"/><circle r="3" fill="${c}"/>` +
+    `<animateMotion dur="${dur}s" begin="${begin}s" repeatCount="indefinite" calcMode="linear"><mpath href="#${id}"/></animateMotion>` +
+    `<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.08;.9;1" dur="${dur}s" begin="${begin}s" repeatCount="indefinite"/></g>`;
   const lines = series
     .map(([k, , ], j) => {
       const pts = days.map((d, i) => [x(i), yc(d[k as keyof Day] as number)] as [number, number]);
       const last = pts[pts.length - 1];
       return (
-        `<path class="draw" pathLength="1" d="${smoothPath(pts)}" fill="none" stroke="${SERIES[k]}" stroke-width="${k === "commits" ? 2.4 : 1.8}" stroke-linecap="round" ${delay(0.2 + j * 0.25)}/>` +
-        `<circle class="pulse" cx="${last[0]}" cy="${last[1]}" r="3.2" fill="${SERIES[k]}" ${delay(1.6 + j * 0.2)}/>`
+        `<path id="l${j}" class="draw" pathLength="1" d="${smoothPath(pts)}" fill="none" stroke="${SERIES[k]}" stroke-width="${k === "commits" ? 2.4 : 1.8}" stroke-linecap="round" ${delay(0.2 + j * 0.25)}/>` +
+        `<circle class="pulse" cx="${last[0]}" cy="${last[1]}" r="3.2" fill="${SERIES[k]}" ${delay(1.6 + j * 0.2)}/>` +
+        comet(`l${j}`, SERIES[k], 7 + j * 1.3, 2 + j * 1.7)
       );
     })
     .join("");
+  const scanCss = `.scan{animation:scan 11s ease-in-out 2s infinite}@keyframes scan{0%{transform:translateX(0);opacity:0}8%{opacity:1}92%{opacity:1}100%{transform:translateX(${iw}px);opacity:0}}`;
+  const scan =
+    `<style>${scanCss}</style><defs><linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="var(--glow)" stop-opacity="0"/><stop offset="1" stop-color="var(--glow)" stop-opacity=".14"/></linearGradient></defs>` +
+    `<g class="scan" style="opacity:0"><rect x="${L - 36}" y="${T}" width="36" height="${ih}" fill="url(#sg)"/><line x1="${L}" x2="${L}" y1="${T}" y2="${T + ih}" stroke="var(--glow)" stroke-opacity=".5"/></g>`;
 
   // 顶部: 标题 + 汇总 + 图例
   const sum = (k: keyof Day) => days.reduce((s, d) => s + (d[k] as number), 0);
@@ -226,7 +282,9 @@ export function activityChart(days: Day[], streak: { current: number; longest: n
     leg +
     grid +
     `<path class="in" d="${area}" fill="url(#ha)" ${delay(0.4)}/>` +
-    `<path class="draw" pathLength="1" d="${hLine}" fill="none" stroke="var(--cy)" stroke-width="1.4" stroke-dasharray="1" ${delay(0.1)} opacity=".9"/>` +
+    `<path id="lh" class="draw" pathLength="1" d="${hLine}" fill="none" stroke="var(--cy)" stroke-width="1.4" stroke-dasharray="1" ${delay(0.1)} opacity=".9"/>` +
+    scan +
+    comet("lh", "var(--cy)", 12, 3) +
     lines;
   return svg(W, H, `近 ${n} 天 GitHub 动态`, body);
 }
@@ -246,8 +304,11 @@ export function sectionHead(opt: { icon: string; title: string; sub?: string; ri
         `<path d="M${W - 16} 15l5 5-5 5" fill="none" stroke="var(--pk)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`
       : "") +
     `<line class="grow" x1="6" x2="${W - 6}" y1="${H - 1}" y2="${H - 1}" stroke="var(--line)"/>` +
+    `<rect class="ul" x="-120" y="${H - 2}" width="120" height="2" rx="1" fill="url(#ug)"/>` +
     `</g>`;
-  return svg(W, H, opt.title, body);
+  const css =
+    `.ul{animation:ul 6s ease-in-out 1.2s infinite}@keyframes ul{0%{transform:translateX(0)}60%,100%{transform:translateX(${W + 120}px)}}`;
+  return svg(W, H, opt.title, `<defs><linearGradient id="ug" x1="0" x2="1"><stop offset="0" stop-color="var(--pk)" stop-opacity="0"/><stop offset=".5" stop-color="var(--pk)"/><stop offset="1" stop-color="var(--pk)" stop-opacity="0"/></linearGradient></defs>` + body, css);
 }
 
 // ---------------------------------------------------------------- 最近更新的一行
@@ -263,7 +324,7 @@ export function latestRow(opt: { kind: "blog" | "note"; idx: number; title: stri
   const body =
     `<g class="in" ${delay(opt.idx * 0.06 + (opt.kind === "note" ? 0.03 : 0))}>` +
     `<rect class="card" x="4.5" y="3.5" width="${w - 9}" height="${H - 7}" rx="9"/>` +
-    `<rect class="rise" x="4.5" y="9" width="3" height="${H - 18}" rx="1.5" fill="${color}" ${delay(0.2 + opt.idx * 0.06)}/>` +
+    `<g class="breathe" style="animation-delay:${(opt.idx * 0.7 + (opt.kind === "note" ? 0.35 : 0)).toFixed(2)}s"><rect class="rise" x="4.5" y="9" width="3" height="${H - 18}" rx="1.5" fill="${color}" ${delay(0.2 + opt.idx * 0.06)}/></g>` +
     icon(opt.kind === "blog" ? "book" : "note", 16, 12, 14, color) +
     `<text x="38" y="24" font-size="13">${esc(truncate(opt.title, 13, titleMax))}</text>` +
     (opt.cat
@@ -306,7 +367,30 @@ export function langBar(langs: { name: string; color: string; size: number }[], 
     `<text class="faint" x="${38 + textWidth("语言占比", 14) + 8}" y="23" font-size="11">${repos} 个自有仓库, 按代码字节</text>` +
     `<text class="mute" x="${W - 16}" y="23" font-size="12" text-anchor="end">${esc(top)}</text>` +
     `<rect x="${x0}" y="38" width="${bw}" height="12" rx="6" fill="var(--line)" opacity=".5"/>` +
-    `<g clip-path="url(#b)">${segs}</g>` +
+    `<g clip-path="url(#b)">${segs}` +
+    `<style>.stp{animation:stp 1.6s linear infinite}@keyframes stp{to{transform:translateX(16.97px)}}</style>` +
+    `<pattern id="st" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="12" fill="#fff" opacity=".22"/></pattern>` +
+    `<rect class="stp" x="${x0 - 40}" y="38" width="${bw + 80}" height="12" fill="url(#st)"/></g>` +
     `<text class="faint" x="${x0}" y="66" font-size="10">点下方语言看对应仓库</text>`;
   return svg(W, H, "语言占比", body);
+}
+
+/** 语言格: 一行 6 格 (宽 W/6), 色点 + 名字 + 占比, 底部一条按占比长出的细条; 每格单独可点 */
+export function langCell(opt: { name: string; color: string; pct: number; max: number; i: number }): string {
+  const w = W / 6;
+  const H = 40;
+  const pctText = opt.pct >= 10 ? `${opt.pct.toFixed(0)}%` : `${opt.pct.toFixed(1)}%`;
+  const nameMax = w - 28 - 14 - textWidth(pctText, 11) - 4;
+  const body =
+    `<defs><clipPath id="lc"><rect x="4.5" y="2.5" width="${w - 9}" height="${H - 5}" rx="10"/></clipPath></defs>` +
+    `<g class="in" ${delay(opt.i * 0.06)}>` +
+    `<rect class="card" x="4.5" y="2.5" width="${w - 9}" height="${H - 5}" rx="10"/>` +
+    sweep("sw", w, H, "lc", 9, 1.5 + opt.i * 1.2, 0.14) +
+    `<circle class="pulse" cx="18" cy="17" r="4" fill="${opt.color}" style="animation-delay:${(opt.i * 0.33).toFixed(2)}s"/>` +
+    `<text x="28" y="21" font-size="11.5" font-weight="500">${esc(truncate(opt.name, 11, nameMax))}</text>` +
+    `<text class="mono mute" x="${w - 14}" y="21" font-size="11" text-anchor="end">${pctText}</text>` +
+    `<rect x="14" y="29" width="${w - 28}" height="3" rx="1.5" fill="var(--line)" opacity=".6"/>` +
+    `<rect class="grow" x="14" y="29" width="${Math.max(2, ((w - 28) * opt.pct) / (opt.max || 1)).toFixed(1)}" height="3" rx="1.5" fill="${opt.color}" ${delay(0.4 + opt.i * 0.08)}/>` +
+    `</g>`;
+  return svg(w, H, `${opt.name} ${pctText}`, body);
 }

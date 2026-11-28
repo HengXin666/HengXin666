@@ -37,6 +37,10 @@ text.mute{fill:var(--mute)}text.faint{fill:var(--faint)}
 .grow{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:grow 1s cubic-bezier(.2,.8,.2,1) .3s forwards}
 .rise{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards}
 .pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2s ease-in-out infinite}
+.twk{transform-box:fill-box;transform-origin:center;opacity:0;animation:twk 3s ease-in-out infinite}
+.breathe{animation:breathe 3.6s ease-in-out infinite}
+@keyframes twk{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:.9;transform:scale(1) rotate(90deg)}}
+@keyframes breathe{0%,100%{opacity:1}50%{opacity:.45}}
 @keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes grow{to{transform:scaleX(1)}}
@@ -119,4 +123,24 @@ export function smoothPath(pts: [number, number][]): string {
     d += `C${f(x0 + h)} ${f(y0 + t[i] * h)} ${f(x1 - h)} ${f(y1 - t[i + 1] * h)} ${f(x1)} ${f(y1)}`;
   }
   return d;
+}
+
+/**
+ * 循环扫光: 一道斜向高光每 period 秒从左扫到右一次 (只占前 30% 时间, 其余时间静止), 永久循环.
+ * 返回要放进卡片的片段 (自带 <style> 与渐变定义); clip 是要裁到的形状 id.
+ */
+export function sweep(id: string, w: number, h: number, clip: string, period = 7, start = 0, strength = 0.22): string {
+  return (
+    `<style>.${id}{animation:${id} ${period}s ease-in-out ${start.toFixed(2)}s infinite}` +
+    `@keyframes ${id}{0%{transform:translateX(-90px) skewX(-20deg)}30%,100%{transform:translateX(${w + 90}px) skewX(-20deg)}}</style>` +
+    `<defs><linearGradient id="${id}g" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/>` +
+    `<stop offset=".5" stop-color="var(--glow)" stop-opacity="${strength}"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>` +
+    `<g clip-path="url(#${clip})"><rect class="${id}" x="0" y="0" width="70" height="${h}" fill="url(#${id}g)"/></g>`
+  );
+}
+
+/** 一闪一闪的四角星 (纯路径), 用于背景点缀 */
+export function sparkle(x: number, y: number, r: number, color: string, dur: number, start: number): string {
+  const d = `M${x} ${y - r}Q${x} ${y} ${x + r} ${y}Q${x} ${y} ${x} ${y + r}Q${x} ${y} ${x - r} ${y}Q${x} ${y} ${x} ${y - r}Z`;
+  return `<path class="twk" d="${d}" fill="${color}" style="animation-duration:${dur}s;animation-delay:${start}s"/>`;
 }

@@ -72,6 +72,13 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: node --loader ts-node/esm scripts/profile/fetchGithub.ts
 
+      # HX-AIOA 里主账号的 GitHub 按天统计 (与手机端同源, 不用 GitHub 令牌); 没配 secrets 就跳过, 用上一步 GraphQL 的数
+      - name: 拉取 AIOA GitHub 统计
+        env:
+          AIOA_SERVER: ${{ secrets.AIOA_SERVER }}
+          AIOA_KEY: ${{ secrets.AIOA_KEY }}
+        run: node --loader ts-node/esm scripts/profile/fetchAioa.ts
+
       # 追番: 匿名 sparse 检出 HXLoLi-ANiMe 的轻量索引与封面, 生成「最近在看」每部一张的封面卡; 失败时保留旧卡片.
       - name: 检出追番数据 (HXLoLi-ANiMe)
         uses: actions/checkout@v4
