@@ -96,7 +96,7 @@ export function renderProfile(blog: LatestItem[], docs: LatestItem[], updatedAt:
     const col = (k: keyof Day) => recent.map((d) => d[k] as number);
     const sum = (k: keyof Day) => col(k).reduce((a, b) => a + b, 0);
     const tiles = [
-      { href: LINKS.profile, icon: "activity", color: "var(--pk)", value: fmt(gh.year.total), label: "贡献", spark: gh.calendar.slice(-RECENT_DAYS).map((d: any) => d.count), sub: `近一年 · 私有 ${fmt(gh.year.private)}` },
+      { href: LINKS.profile, icon: "activity", color: "var(--pk)", value: fmt(gh.year.total), label: "贡献", spark: gh.calendar.slice(-RECENT_DAYS).map((d: any) => d.count), sub: gh.scope === "all" ? `近一年 · 含私有 ${fmt(gh.year.private)}` : "近一年 · 仅公开" },
       { href: LINKS.commits, icon: "commit", color: "var(--pk)", value: fmt(gh.year.commits), label: "提交", spark: col("commits"), sub: `近 30 天 ${fmt(sum("commits"))}` },
       { href: LINKS.prs, icon: "pr", color: "var(--pu)", value: fmt(gh.year.prs), label: "PR", spark: col("prs"), sub: `近 30 天 ${fmt(sum("prs"))}` },
       { href: LINKS.issues, icon: "issue", color: "var(--or)", value: fmt(gh.year.issues), label: "Issue", spark: col("issues"), sub: `近 30 天 ${fmt(sum("issues"))}` },
@@ -108,7 +108,7 @@ export function renderProfile(blog: LatestItem[], docs: LatestItem[], updatedAt:
         .map((t, i) => link(t.href, write(`tile-${i}.svg`, tile({ ...t, spark: t.spark.length ? t.spark : Array(RECENT_DAYS).fill(0), i })), `${t.label} ${t.value}`, W / 6))
         .join("")}</p>`,
     );
-    parts.push(`<p>${link(LINKS.profile, write("activity.svg", activityChart(recent, gh.streak)), "近 30 天 GitHub 动态", W)}</p>`);
+    parts.push(`<p>${link(LINKS.profile, write("activity.svg", activityChart(recent, gh.streak, gh.scope)), "近 30 天 GitHub 动态", W)}</p>`);
 
     // 语言: 每个一枚胶囊, 点进去是按该语言筛选的仓库列表
     const total = gh.languages.reduce((s: number, l: any) => s + l.size, 0) || 1;

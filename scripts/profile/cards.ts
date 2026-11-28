@@ -136,7 +136,7 @@ export type Day = { date: string; commits: number; prs: number; issues: number; 
  * 近 30 天聚合折线 (参考 HX-AIOA 手机端 GitHub 页的做法: 上面一行汇总, 下面一张图把几种动态叠在一起):
  * 提交 / PR / Issue 用左轴 (次数), 编码时长用右轴 (小时, 面积). 线条逐条描出, 最新一天的点呼吸.
  */
-export function activityChart(days: Day[], streak: { current: number; longest: number }): string {
+export function activityChart(days: Day[], streak: { current: number; longest: number }, scope = "all"): string {
   const H = 232;
   const L = 44;
   const R = 44;
@@ -215,7 +215,7 @@ export function activityChart(days: Day[], streak: { current: number; longest: n
   const head =
     icon("activity", 16, 12, 15, "var(--pk)") +
     `<text x="38" y="24" font-size="14" font-weight="600">近 ${n} 天</text>` +
-    `<text class="faint" x="${38 + textWidth(`近 ${n} 天`, 14) + 8}" y="24" font-size="11">GitHub 动态与 WakaTime 编码时长</text>` +
+    `<text class="faint" x="${38 + textWidth(`近 ${n} 天`, 14) + 8}" y="24" font-size="11">${scope === "all" ? "GitHub 动态 (含私有仓库) 与 WakaTime 编码时长" : "GitHub 公开动态与 WakaTime 编码时长"}</text>` +
     `<g class="pulse">${icon("flame", W - 150, 11, 15, "var(--or)")}</g>` +
     `<text x="${W - 130}" y="24" font-size="12"><tspan class="mono" font-weight="700">${streak.current}</tspan><tspan class="mute"> 天连续</tspan><tspan class="faint"> · 最长 </tspan><tspan class="mono mute">${streak.longest}</tspan></text>`;
 

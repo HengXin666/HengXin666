@@ -163,6 +163,8 @@ async function main() {
 
   const data = {
     generatedAt: now.toISOString(),
+    // all: 本人 PAT, 私有仓库贡献计入 year.private; public: Actions 自带令牌, 只有公开贡献
+    scope: process.env.GH_STATS_TOKEN ? "all" : "public",
     login: u.login,
     name: u.name,
     followers: u.followers.totalCount,

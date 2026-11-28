@@ -63,7 +63,8 @@ jobs:
       - name: 安装 Node.js 依赖
         run: npm i
 
-      # GH_STATS_TOKEN (可选, 本人 PAT, 只需 read:user) 能把私有仓库贡献算进来; 没配就用自带的 GITHUB_TOKEN, 只算公开.
+      # GH_STATS_TOKEN (可选, 本人 classic PAT, 勾 read:user 即可): 私有仓库贡献也算进来, 卡片上分开标 "公开 / 私有";
+      # 没配就用自带的 GITHUB_TOKEN, 卡片标 "仅公开". 每次运行约 4~8 次 GraphQL 请求, 远低于每小时 5000 点的额度.
       # 拉取失败时保留旧 data/github.json.
       - name: 拉取 GitHub 统计
         env:
